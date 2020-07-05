@@ -21,13 +21,5 @@ class Post extends Model
     }
 
 
-    public function like($user_id)
-    {
-        return $this->hasOne(\App\Like::class)->where('user_id',$user_id);
-    }
-
-    public function likeCount($user_id){
-        return $this->hasMany(\App\Like::class);
-    }
 }
 

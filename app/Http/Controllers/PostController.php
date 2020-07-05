@@ -115,24 +115,4 @@ class PostController extends Controller
 
         return redirect("posts/index");
     }
-
-    public function like(Post $post)
-    {
-
-        $param = [
-            'user_id' => \Auth::id(),
-            'post_id' => $post->id
-        ];
-        Like::firstOrCreate($param);
-        return back();
-
-    }
-
-    public function unlike(Post $post)
-    {
-        $post->like(\Auth::id())->delete();
-        return back();
-    }
-
-
 }

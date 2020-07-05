@@ -37,8 +37,8 @@ Route::get('posts/{post}','PostController@detail');
 //文章评论行为
 Route::post('posts/{post}/comments','PostController@comment');
 //文章点赞与取消赞行为
-Route::post('posts/{post}/like','PostController@like');
-Route::post('posts/{post}/unlike','PostController@unlike');
+//Route::post('posts/{post}/like','PostController@like');
+//Route::post('posts/{post}/unlike','PostController@unlike');
 //用户创建文章
 Route::get('posts/index/create','PostController@create');
 Route::post('posts/index/store','PostController@store');
