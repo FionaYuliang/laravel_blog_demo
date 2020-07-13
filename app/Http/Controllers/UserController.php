@@ -4,72 +4,61 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
-
+    /**
+     * User Model里getInfo函数的返回值传递给控制层
+     * @param User $user
+     * @return
+     */
     public function profile(User $user)
     {
-        //当前用户信息，包含他的文章，关注的用户，粉丝
-//        $user = User::withCount(['posts','followings','followers'])->find($user->id);
 
-        $user = DB::table('User')->where('id',$user->id);
-        $posts_num = DB::table('posts')
-            ->where('user_id',$user->id)
-            ->count();
-        $stars_num = DB::table('follow')
-            ->where('following_id',$user->id) //当前用户去关注别人，他是follower_id
-            ->count();
-
-        $fans_num = DB::table('follow')
-            ->where('follower_id',$user->id)
-            ->count();
-
-        //当前用户的文章列表，取最新10条
-//        $posts = $user->posts()->orderBy('created_at','desc')->take(10)->get();
-
-        $posts_list = DB::table('posts')
-            ->where('user_id',$user->id)
+        $model_user = new User();
+        // 当前登录用户的信息
+        $userInfo = $model_user->getInfo($user->id);
+        //当前用户最新10篇文章
+        $posts = DB::table('posts')
+            ->select('*')
+            ->where('posts.user_id','=',$user->id)
             ->orderBy('created_at','desc')
-            ->tale(10)
             ->get();
 
-        //当前用户关注 用户的文章数，关注数，被关注数
-//        $followers = $user->follower();
-//        $ufollowers = User::whereIn('id',$followers->pluck('follower_id'))
-//            ->withCount(['posts','followings','follower'])->get();
+//         当前用户关注用户的列表
+        $stars_list = DB::table('follows')
+            ->select('*')
+            ->where('follower_id','=',$user->id)
+            ->get();
 
-        //当前用户 关注的用户(当前用户是follower_id,)
-        $first_query = DB::table('user')
-            ->join('follows','user.id','=','follows.follower_id')
-            ->select('follows.follower_id');
+        $stars_result_list  = [];
+        foreach($stars_list as $stars){
+            $star_info= $model_user->getInfo($stars->id);
+            array_push($stars_result_list, $star_info);
+        }
 
-        $stars_name = $first_query->select('user.name')->get();
+        // 当前用户粉丝用户列表
+        $fans_list = DB::table('follows')
+            ->select('*')
+            ->where('following_id','=',$user->id)
+            ->get();
 
-        //关注的用户关注了多少用户
-        $stars_star_count = $first_query->join('follows','','=','follows.following_id')->count();
-
-        //关注的用户被多少人关注
-        $stars_fans_count = $first_query->
-
-        //当前用户 关注的用户的文章数
-        $ers_posts_num = DB::table('posts')
-            ->union($first_query)
-            ->join('follows','posts.user_id','=','follows.follower_id')
-            ->count();
-
-
-        //当前用户的粉丝的文章数，关注数，被关注数
-//        $followings = $user->following();
-//        $ufollowings = User::whereIn('id',$followings->pluck('following_id'))
-//            ->withCount(['posts','followings','follower'])->get();
-
+        $fans_result_list  = [];
+        foreach($fans_list as $fans){
+            $fan_info = $model_user->getInfo($fans->id);
+            array_push($fans_result_list, $fan_info);
+        }
 
         return view('user/profile',
-            compact('user','posts','ufollowers','ufollowings'));
+            compact('userInfo','posts','stars_result_list','fans_result_list'));
     }
 
-    //当前用户关注其他用户
+    /**
+     *
+     * @param User $user
+     * @return array
+     */
     public  function follow(User $user)
     {
 
@@ -81,7 +70,11 @@ class UserController extends Controller
             'msg'=> '',
         ];
     }
-    //当前用户取消关注其他用户
+    /**
+     * 当前用户取消关注其他用户
+     * @param User $user
+     * @return array
+     */
     public function unfollow(User $user)
     {
         $me = \Auth::user();

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 
 class Post extends Model
@@ -20,6 +21,17 @@ class Post extends Model
         return $this->hasMany('App\Comment');
     }
 
+    /**
+     * @param $uid
+     * @return int
+     */
+    public function  getPostNum($uid)
+    {
+        $post_count = DB::table('posts')->select('*')
+            ->where('user_id','=',$uid)->count();
+
+        return $post_count;
+    }
 
 }
 

@@ -71,8 +71,8 @@
             <blockquote>
                 <p><img src="" alt="" class="img-rounded"
                         style="border-radius:500px; height: 40px">
-                    {{$user->name}}</p>
-                <footer>关注：{{$user->following_count}}｜粉丝：{{$user->follower_count}}｜文章：{{$user->posts_count}}</footer>
+                    {{$userInfo['username']}}</p>
+                <footer>关注：{{$userInfo['star_count']}}｜粉丝：{{$userInfo['fan_count']}}｜文章：{{$userInfo['post_count']}}</footer>
             </blockquote>
         </div>
         <div class="col-sm-8 blog-main">
@@ -87,19 +87,18 @@
                         @foreach($posts as $post)
                         <div class="blog-post" style="margin-top: 30px">
                             <p class="">
-                                <a href="/user/{{$user->id}}">
-                                    {{$user->name}}</a>
-                                {{$post->created_at->diffForHumans()}}</p>
-                                <p class=""><a href="/posts/62" >{{$post->content}}</a></p>
+                                <a href="/user/{{$post->user_id}}"></a>
+                                {{$post->created_at}}</p>
+                                <p class=""><a href="/posts/{{$post->id}}" >{{$post->content}}</a></p>
                         </div>
                         @endforeach
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_2">
-                        @foreach($ufollowings as $user)
+                        @foreach($stars_result_list as $star)
                         <div class="blog-post" style="margin-top: 30px">
-                            <p class="">{{$user->name}}</p>
-                            <p class="">关注：{{$user->following_count}} | 粉丝：{{$user->follower_count}}｜文章：{{$user->posts_count}}</p>
+                            <p class="">{{$star->username}}</p>
+                            <p class="">关注：{{$star->star_count}} | 粉丝：{{$star->fan_count}}｜文章：{{$star->post_count}}</p>
                         </div>
 
                         <button class="btn btn-default like-button"
@@ -109,10 +108,10 @@
                     </div>
                     <!-- /.tab-pane -->
                     <div class="tab-pane" id="tab_3">
-                        @foreach($ufollowers as $user)
+                        @foreach($fans_result_list as $fan)
                             <div class="blog-post" style="margin-top: 30px">
-                                <p class="">{{$user->name}}</p>
-                                <p class="">关注：{{$user->following_count}} | 粉丝：{{$user->follower_count}}｜文章：{{$user->posts_count}}</p>
+                                <p class="">{{$fan->username}}</p>
+                                <p class="">关注：{{$fan->star_count}} | 粉丝：{{$fan->fan_count}}｜文章：{{$fan->post_count}}</p>
                             </div>
 
                             <button class="btn btn-default like-button"

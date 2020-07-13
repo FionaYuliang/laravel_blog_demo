@@ -3,6 +3,7 @@
 namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -53,5 +54,31 @@ class User extends Authenticatable
     public function hasFollowing($uid)
     {
         $this->followers()->where('following_id',$uid)->count();
+    }
+
+    /**
+     * 个人中心：获取用户相关信息
+     * @param $uid
+     * @return array
+     */
+    public function getInfo($uid){
+        $user = DB::table("users")
+            ->select("*")
+            ->where("id","=" ,$uid)
+            ->first();
+        $username = $user->name;
+        $model_follow = new Follow();
+        $model_post = new Post();
+
+        $fan_count = $model_follow->getFanNum($uid);
+        $star_count = $model_follow->getStarNum($uid);
+        $post_count = $model_post->getPostNum($uid);
+
+        return [
+            "username" => $username,
+            "fan_count" => $fan_count,
+            'star_count' => $star_count,
+            'post_count' =>$post_count
+        ];
     }
 }
