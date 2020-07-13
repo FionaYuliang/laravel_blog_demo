@@ -9,13 +9,12 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use function Sodium\compare;
 
 class PostController extends Controller
 {
     public function index()
     {
-        return 1;
+
         //Post模型和PostController都属于model，相关可用php artisan help make:model命令查看
 //        $posts = Post::orderBy('created_at','desc')->withCount(['comments','likes'])->paginate(6);
 //        return view('posts/index',compact('posts'));

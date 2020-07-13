@@ -13,7 +13,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//User Model
+
+//个人中心
+Route::get('user/{user}','UserController@profile');
+//关注当前用户
+Route::post('user/{user}/follow','UserController@follow');
+//取消关注当前用户
+Route::post('user/{user}/unfollow','UserController@unfollow');
+
+//用户个人设置页面
+Route::get('user/me/setting','UserController@setting');
+//个人设置行为
+Route::post('user/settingStore','UserController@settingStore');
+
+
+
+
 //用户注册页面
 Route::get('register','RegisterController@index');
 //用户注册行为
@@ -24,10 +39,7 @@ Route::get('login','LoginController@index');
 Route::post('login','LoginController@authenticate');
 //用户登出行为
 Route::get('logout','LoginController@logout');
-//用户个人设置页面
-Route::get('user/me/setting','UserController@setting');
-//个人设置行为
-Route::post('user/settingStore','UserController@settingStore');
+
 
 // Post Model
 //文章列表页

@@ -26,8 +26,8 @@
                    {{\Auth::user()->name}}
                         <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/user/4">我的主页</a></li>
-                        <li><a href="/user/4/setting">个人设置</a></li>
+                        <li><a href="/user/{{\Auth::user()->id}}">我的主页</a></li>
+                        <li><a href="/user/me/setting">个人设置</a></li>
                         <li><a href="/logout">登出</a></li>
                     </ul>
                 </div>

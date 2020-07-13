@@ -1,6 +1,5 @@
 
 @extends("base.main")
-
 @section("content")
     <div class="col-sm-8 blog-main">
         @if($errors->any())
@@ -30,5 +29,4 @@
         </form>
         <br>
     </div><!-- /.blog-main -->
-
 @endsection
