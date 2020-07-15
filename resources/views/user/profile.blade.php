@@ -87,7 +87,7 @@
                         @foreach($posts as $post)
                         <div class="blog-post" style="margin-top: 30px">
                             <p class="">
-                                <a href="/user/{{$post->user_id}}"></a>
+                                <a href="/user/{{$post->user_id}}">{{$post->title}}</a>
                                 {{$post->created_at}}</p>
                                 <p class=""><a href="/posts/{{$post->id}}" >{{$post->content}}</a></p>
                         </div>

@@ -53,17 +53,45 @@ class UserController extends Controller
         return view('user/profile',
             compact('userInfo','posts','stars_result_list','fans_result_list'));
     }
+    /**
+     * 个人设置页面
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+    public  function setting()
+    {
+        return view('user.setting');
+    }
+    /**
+     * 个人设置行为
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+
+    public  function settingStore()
+    {
+        return view('user.me');
+    }
 
     /**
-     *
+     *当前用户关注其他用户
      * @param User $user
      * @return array
      */
     public  function follow(User $user)
     {
+        // 1.   获取当前登录用户self_uid
+        // 2.   获取要关注用户target_uid
+        // 3.   在数据库中添加一条记录, 记录self_uid 关注了 target_uid
+
+        // MVC
+        // View => 只展示数据
+        // Model => 只做数据库操作
+        // Control => 控制所有逻辑流程
+
+        // FollowModel->follow(self_uid, target_uid);
 
         $me = \Auth::user();
-        $me->doFollower($user->id);
+        $me->doFan($user->id);
 
         return [
             'error'=>0,
@@ -78,25 +106,13 @@ class UserController extends Controller
     public function unfollow(User $user)
     {
         $me = \Auth::user();
-        $me->doUnFollowing($user->id);
+        $me->doUnFan($user->id);
 
         return [
             'error'=>0,
             'msg'=> '',
         ];
 
-    }
-
-    //个人设置页面
-    public  function setting()
-    {
-        return view('user.setting');
-    }
-
-    //个人设置行为
-    public  function settingStore()
-    {
-        return view('user.me');
     }
 
 
