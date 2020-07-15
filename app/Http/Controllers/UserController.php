@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -73,7 +74,7 @@ class UserController extends Controller
     }
 
     /**
-     *当前用户关注其他用户
+     *登录用户关注当前用户
      * @param User $user
      * @return array
      */
@@ -88,16 +89,14 @@ class UserController extends Controller
         // Model => 只做数据库操作
         // Control => 控制所有逻辑流程
 
-        // FollowModel->follow(self_uid, target_uid);
+        $entry = new \App\Follow();
+        $entry->follower_id =  \Auth::id();
+        $entry->following_id = $user->id;
+        $entry->save();
 
-        $me = \Auth::user();
-        $me->doFan($user->id);
-
-        return [
-            'error'=>0,
-            'msg'=> '',
-        ];
+        return ;
     }
+
     /**
      * 当前用户取消关注其他用户
      * @param User $user
@@ -114,7 +113,5 @@ class UserController extends Controller
         ];
 
     }
-
-
 
 }

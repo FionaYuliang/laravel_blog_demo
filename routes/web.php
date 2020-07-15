@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 //个人中心
 Route::get('user/{user}','UserController@profile');
-//关注当前用户
+//关注当前用户,user_id为当前用户的id
 Route::post('user/{user}/follow','UserController@follow');
 //取消关注当前用户
 Route::post('user/{user}/unfollow','UserController@unfollow');

@@ -36,29 +36,6 @@ class User extends Authenticatable
         return $this->hasMany(\App\Follow::class,'following_id','id');
     }
 
-    /**
-     * 登录用户关注别人
-     * @param $uid
-     * @return mixed
-     */
-   public function doFan($uid)
-   {
-       $following = new \App\Follow();
-       $following->following_id = $uid;
-       return $this->followings()->save($following);
-   }
-
-    /**
-     * 登录用户取消关注别人
-     * @param $uid
-     * @return mixed
-     */
-    public function doUnFan($uid)
-    {
-        $following = new \App\Follow();
-        $following->following_id = $uid;
-        return $this->followings()->delete($following);
-    }
 
     /**
      * 当前用户是否被uid关注
@@ -66,9 +43,8 @@ class User extends Authenticatable
      */
     public function hasFan($uid)
     {
-          $this->followers()->where('follower_id',$uid)->count();
+        return $this->getFans()->where('follower_id',$uid)->count();
     }
-
 
     /**
      * 当前用户是否关注了uid
@@ -76,7 +52,7 @@ class User extends Authenticatable
      */
     public function hasStar($uid)
     {
-        $this->followers()->where('following_id',$uid)->count();
+        return $this->getStars()->where('following_id',$uid)->count();
     }
 
     /**
@@ -98,6 +74,7 @@ class User extends Authenticatable
         $post_count = $model_post->getPostNum($uid);
 
         return [
+            "user_id" => $uid,
             "username" => $username,
             "fan_count" => $fan_count,
             'star_count' => $star_count,
