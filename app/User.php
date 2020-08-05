@@ -47,12 +47,17 @@ class User extends Authenticatable
     }
 
     /**
-     * 当前用户是否关注了uid
-     * @param $uid
+     * 登录用户是否关注了当前uid
+     * @param $target_uid
      */
     public function hasStar($uid)
     {
-        return $this->getStars()->where('following_id',$uid)->count();
+        $is_follow = DB::table('follow')->select('*')
+            ->where('following_id', $uid)
+            ->where('follower_id',Auth::id())
+            ->exists();
+
+        return $is_follow;
     }
 
     /**
@@ -62,9 +67,11 @@ class User extends Authenticatable
      */
     public function getInfo($uid){
         $user = DB::table("users")
-            ->select("*")
+            ->select('id','name')
             ->where("id","=" ,$uid)
             ->first();
+        $uid = $user->id;
+
         $username = $user->name;
         $model_follow = new Follow();
         $model_post = new Post();

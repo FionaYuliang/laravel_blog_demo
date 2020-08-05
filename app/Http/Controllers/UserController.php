@@ -35,7 +35,7 @@ class UserController extends Controller
 
         $stars_result_list  = [];
         foreach($stars_list as $stars){
-            $star_info= $model_user->getInfo($stars->id);
+            $star_info= $model_user->getInfo($stars->following_id);
             array_push($stars_result_list, $star_info);
         }
 
@@ -45,9 +45,10 @@ class UserController extends Controller
             ->where('following_id','=',$user->id)
             ->get();
 
+
         $fans_result_list  = [];
         foreach($fans_list as $fans){
-            $fan_info = $model_user->getInfo($fans->id);
+            $fan_info = $model_user->getInfo($fans->follower_id);
             array_push($fans_result_list, $fan_info);
         }
 
@@ -83,18 +84,19 @@ class UserController extends Controller
         // 1.   获取当前登录用户self_uid
         // 2.   获取要关注用户target_uid
         // 3.   在数据库中添加一条记录, 记录self_uid 关注了 target_uid
+        // 跟创建文章的逻辑是一样的
 
-        // MVC
-        // View => 只展示数据
-        // Model => 只做数据库操作
-        // Control => 控制所有逻辑流程
+        if($is_exist == 0){
+            $entry = new \App\Follow();
+            $entry->following_id = $user->id;
+            $entry->follower_id = Auth::id();
+            $entry->save();
+        }
 
-        $entry = new \App\Follow();
-        $entry->follower_id =  \Auth::id();
-        $entry->following_id = $user->id;
-        $entry->save();
-
-        return ;
+       return [
+           "error" => 0,
+             "data" => "关注成功",
+       ];
     }
 
     /**
@@ -104,14 +106,17 @@ class UserController extends Controller
      */
     public function unfollow(User $user)
     {
-        $me = \Auth::user();
-        $me->doUnFan($user->id);
+        $entry = DB::table('follows')
+            ->select('*')
+            ->where('follower_id','=',Auth::id())
+            ->where('following_id','=',$user->id)
+            ->first();
+        $entry->delete();
 
         return [
-            'error'=>0,
-            'msg'=> '',
+            "error" => 0,
+            "data" => "",
         ];
-
     }
 
 }

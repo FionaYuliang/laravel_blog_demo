@@ -59,3 +59,6 @@ Route::get('posts/{post}/edit','PostController@edit');
 Route::post('posts/{post}/update','PostController@update');
 //用户删除文章
 Route::get('posts/{post}/delete','PostController@delete');
+
+
+include_once('admin.php');

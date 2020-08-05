@@ -6,9 +6,9 @@ editor.create()
 
 $('.follow-button').on( "click", function (event) {
     var target = $(event.target);
-    var current_mode = target.attr('follow-value');
+    var has_follow = target.attr('follow-value')
     var user_id = target.attr('follow-user');
-    if (current_mode === 1) {
+    if (has_follow === 1) {
         $.ajax({
             url: "/user/" + user_id + "/unfollow",
             method: 'POST',
@@ -21,6 +21,7 @@ $('.follow-button').on( "click", function (event) {
 
                 target.attr('follow-value', 0);
                 target.text('关注');
+
             }
         })
     } else {
@@ -29,6 +30,7 @@ $('.follow-button').on( "click", function (event) {
             method: 'POST',
             dataType: "json",
             success: function (data) {
+                console.log("data =>", data)
                 if (data.error !== 0) {
                     alert(data.msg);
                     return;
@@ -36,6 +38,8 @@ $('.follow-button').on( "click", function (event) {
 
                 target.attr('follow-value', 1);
                 target.text('取消关注');
+                // alert("该刷新页面了");
+                // location.reload()
             }
         })
     }

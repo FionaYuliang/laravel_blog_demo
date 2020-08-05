@@ -37,7 +37,7 @@
                 <p><img src="http://ww1.sinaimg.cn/large/006hVAtMly1ggrqevjbcpj30a00a0myw.jpg" alt="" class="img-rounded"
                         style="border-radius:500px; height: 40px">
                     {{$userInfo['username']}}</p>
-                <footer>关注：{{$userInfo['star_count']}}｜粉丝：{{$userInfo['fan_count']}}｜
+                <footer>关注：{{$userInfo['fan_count']}}｜粉丝：{{$userInfo['star_count']}}｜
                     文章：{{$userInfo['post_count']}}</footer>
                 @include('user.badges.follow',['target_user' => $userInfo])
             </blockquote>
@@ -65,8 +65,9 @@
                     <div class="tab-pane" id="tab_2">
                         @foreach($stars_result_list as $star)
                         <div class="blog-post" style="margin-top: 30px">
-                            <p class="">{{$star->username}}</p>
-                            <p class="">关注：{{$star->star_count}} | 粉丝：{{$star->fan_count}}｜文章：{{$star->post_count}}</p>
+                            <p class="">{{$star['username']}}</p>
+                            <p class="">关注：{{$star['star_count']}} | 粉丝：{{$star['fan_count']}}
+                                ｜文章：{{$star['post_count']}}</p>
                         </div>
                             @include('user.badges.follow',['target_user' => $star])
                         @endforeach
@@ -75,8 +76,10 @@
                     <div class="tab-pane" id="tab_3">
                         @foreach($fans_result_list as $fan)
                             <div class="blog-post" style="margin-top: 30px">
-                                <p class="">{{$fan->username}}</p>
-                                <p class="">关注：{{$fan->star_count}} | 粉丝：{{$fan->fan_count}}｜文章：{{$fan->post_count}}</p>
+                                <p class="">{{$fan['username']}}</p>
+                                <p class="">关注：{{$fan['star_count']}} | 粉丝：{{$fan['fan_count']}}
+                                    ｜文章：{{$fan['post_count']}}</p>
+                            </div>
                             </div>
                         @endforeach
                     </div>
