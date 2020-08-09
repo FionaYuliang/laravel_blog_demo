@@ -26,7 +26,7 @@
                         <!-- Menu Footer-->
                         <li class="user-footer">
                             <div class="pull-right">
-                                <a href="admin/logout" class="btn btn-default btn-flat">登出</a>
+                                <a href="/admin/logout" class="btn btn-default btn-flat">登出</a>
                             </div>
                         </li>
                     </ul>
