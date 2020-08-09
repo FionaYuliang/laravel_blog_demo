@@ -23,7 +23,7 @@ Route::group(['prefix'=>'admin'], function(){
         //管理文章列表
         Route::get('/posts','\App\Admin\Controllers\PostController@index');
         //操作文章列表
-        Route::post('/posts/{post}/status','\App\Admin\Controllers\UserController@changeStatus');
+        Route::post('/posts/{post}/status','\App\Admin\Controllers\PostController@changeStatus');
     });
 
 

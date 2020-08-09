@@ -4,7 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\AdminUser;
 use App\Post;
-use http\Env\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\True_;
@@ -33,11 +33,12 @@ class PostController extends Controller
             'status' => 'required|in:-1,1',
         ]);
 
-        $post_id  = request('id');
+        $post_id  = request('post_id');
+        $post_status =request('status');
+
         $target_post = DB::table('posts')->select('*')
-            ->where('id','=','post_id');
-        $target_post->status= request('status');
-        $target_post->save();
+            ->where('id','=',$post_id)
+            ->update(['status'=> $post_status]);
 
         return [
             'error' => 0,

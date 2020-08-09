@@ -23,19 +23,19 @@ function init(){
 
 $('.post-audit').on('click', (event) =>{
     let target = $(event.target);
-    var post_id = target.attr("data-post-id");
-    var status = target.attr("data-post-action-status");
-     alert(post_id);
+    let post_id = target.attr("data-post-id");
+    let status = target.attr("data-post-action-status");
 
-    // $.get("admin/posts/" + post_id + "/status",{
-    //     status: status,
-    // },function success (data) {
-    //     if (data.error != 0){
-    //         alert(data.msg);
-    //         return;
-    //     }
-    //     target.parent().parent().remove();
-    // });
+    $.post("/admin/posts/" + post_id + "/status",{
+        post_id:post_id,
+        status:status,
+    }, (data) => {
+        if (data.error != 0){
+            alert(data.msg);
+            return;
+        }
+        target.parent().parent().remove();
+    });
 });
 }
 

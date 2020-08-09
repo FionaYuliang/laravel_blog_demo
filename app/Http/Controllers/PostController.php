@@ -23,6 +23,7 @@ class PostController extends Controller
         $posts = DB::table('posts')
             ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
                 'users.id as user_id','users.name')
+            ->where('status','=','0')
             ->join('users', 'posts.user_id', '=','users.id')
             ->orderBy('posts.created_at','desc')
             ->get();
