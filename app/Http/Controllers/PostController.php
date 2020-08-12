@@ -14,7 +14,6 @@ class PostController extends Controller
 {
     public function index()
     {
-
         //Post模型和PostController都属于model，相关可用php artisan help make:model命令查看
 //        $posts = Post::orderBy('created_at','desc')->withCount(['comments','likes'])->paginate(6);
 //        return view('posts/index',compact('posts'));
@@ -23,12 +22,14 @@ class PostController extends Controller
         $posts = DB::table('posts')
             ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
                 'users.id as user_id','users.name')
-            ->where('status','=','0')
+            ->where('status','=','1')
             ->join('users', 'posts.user_id', '=','users.id')
             ->orderBy('posts.created_at','desc')
             ->get();
 
-        return view('posts/index',['posts'=>$posts]);
+        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
+
+        return view('posts/index',['posts'=>$posts],['topics'=>$topics]);
 
     }
 

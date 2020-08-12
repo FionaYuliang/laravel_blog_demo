@@ -60,5 +60,11 @@ Route::post('posts/{post}/update','PostController@update');
 //用户删除文章
 Route::get('posts/{post}/delete','PostController@delete');
 
+//专题详情页
+Route::get('topics/{topic}','TopicController@show');
+//专题投稿
+Route::post('topics/{topic}/submit','TopicController@submit');
+
+
 
 include_once('admin.php');
