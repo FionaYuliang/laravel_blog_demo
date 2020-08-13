@@ -36,7 +36,7 @@ class PostController extends Controller
         $post_id  = request('post_id');
         $post_status =request('status');
 
-        $target_post = DB::table('posts')->select('*')
+        DB::table('posts')->select('*')
             ->where('id','=',$post_id)
             ->update(['status'=> $post_status]);
 

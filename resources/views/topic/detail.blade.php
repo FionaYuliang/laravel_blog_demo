@@ -2,11 +2,11 @@
 @section("content")
     <div class="col-sm-8">
         <blockquote>
-            <p>{{$topic_info['topic_name']}}</p>
-            <footer>文章：{{$topic_info['posts_count']}}</footer>
+            <p>{{$topic_name}}</p>
+            <footer>文章：{{$posts_count}}</footer>
             <button class="btn btn-default topic-submit"
                     data-toggle="modal" data-target="#topic_submit_modal"
-                    data-topic-id="{{$topic_info['topic_id']}}"
+                    data-topic-id="{{$topic_id}}"
                     _token="MESUY3topeHgvFqsy9EcM916UWQq6khiGHM91wHy"
                     type="submit">投稿</button>
         </blockquote>
@@ -16,14 +16,23 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">我的文章</h4>
+                    <h4 class="modal-title" id="myModalLabel">我的文章({{$myposts_count}} 篇)</h4>
                 </div>
+                @if($myposts_count == 0)
+                    <div class="modal-body">
+                    <p>您没有不属于该专题的文章<br/>
+                        <a href="http://127.0.0.1:8000/posts/index/create">去写一篇</a></p>
+                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                </div>
+                @else
                 <div class="modal-body">
-                    <form action="/topics/{{$topic_info['topic_id']}}/submit" method="POST">
+                    <form action="/topics/{{$topic_id}}/submit?topic_id={{$topic_id}}" method="POST">
                         @foreach($myposts as $mypost)
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" name="items" value="{{$mypost->id}}">
+                                <input type="checkbox" name="post_ids[]" value="{{$mypost->id}}">
                                 {{$mypost->title}}
                             </label>
                         </div>
@@ -31,10 +40,7 @@
                         <button type="submit" class="btn btn-default">投稿</button>
                     </form>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button type="sumit" class="btn btn-primary">投稿</button>
-                </div>
+                @endif
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->

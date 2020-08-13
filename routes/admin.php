@@ -1,4 +1,5 @@
 <?php
+
 Route::group(['prefix'=>'admin'], function(){
    //登录展示页面
     Route::get('/login','\App\Admin\Controllers\LoginController@index');
@@ -7,8 +8,6 @@ Route::group(['prefix'=>'admin'], function(){
 
     // 登出行为
     Route::get('/logout','\App\Admin\Controllers\LoginController@logout');
-
-
 
     //home page
     Route::group(['middleware'=>'auth:admin'],function(){
@@ -24,7 +23,18 @@ Route::group(['prefix'=>'admin'], function(){
         Route::get('/posts','\App\Admin\Controllers\PostController@index');
         //操作文章列表
         Route::post('/posts/{post}/status','\App\Admin\Controllers\PostController@changeStatus');
+
+
+        //管理专题列表
+        Route::get('/topics','\App\Admin\Controllers\TopicController@index');
+        //操作专题列表
+        Route::get('/topics/create','\App\Admin\Controllers\TopicController@create');
+        Route::post('/topics/store','\App\Admin\Controllers\TopicController@store');
+
+        Route::post('/topics/{topic}/delete','\App\Admin\Controllers\TopicController@delete');
+
     });
+
 
 
 });

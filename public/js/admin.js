@@ -19,6 +19,8 @@
 //      2.   发起一个网络请求
 //           3.   将该按钮所对应的记录， 改变状态
 // 4.   根据服务器响应，执行相应操作
+
+
 function init(){
 
 $('.post-audit').on('click', (event) =>{
@@ -37,32 +39,33 @@ $('.post-audit').on('click', (event) =>{
         target.parent().parent().remove();
     });
 });
+
+$('.ordinary-delete').on('click', (event) =>{
+    if(confirm("sure to delete this topic?") === false){
+        return;
+    }
+
+    let target = $(event.target);
+    let topic_id = target.attr("data-topic-id");
+
+    $.post("/admin/topics/" + topic_id + "/delete",{
+        topic_id:topic_id,
+    }, (data) => {
+        if (data.error != 0){
+            alert(data.msg);
+            return;
+        }
+        target.parent().parent().remove();
+        window.location.reload();
+
+    });
+});
+
+
 }
 
 $(init)
 
-console.log("12321")
-
-    // $(".post-audit").on("click",function (){
-    //     target = $(event.target);
-    //     var post_id = target.attr("post-id");
-    //     var status = target.attr("post-action-status");
-    //
-    //     $.ajax({
-    //         url: "admin/posts/" + post_id + "/status",
-    //         method: "POST",
-    //         data: { "status": status },
-    //         dataType: "json",
-    //         success: function success(data) {
-    //             if (data.error != 0) {
-    //                 alert(data.msg);
-    //                 return;
-    //             }
-    //
-    //             target.parent().parent().remove();
-    //         }
-    //     });
-    // });
 
 
 

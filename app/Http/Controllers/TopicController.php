@@ -7,6 +7,7 @@ use App\Like;
 use App\Post;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Topic as MTopic;
@@ -40,20 +41,43 @@ class TopicController extends Controller
             ->where('user_id','=',$uid)
             ->whereNotIn('id',$post_id_list)
             ->get();
+        $myposts_count = count($myposts);
+
 
         //原生sql查询,要照顾到侧边栏的专题列表,这里暂时再查一遍
         $topics = DB::table('topics')->select('*')->orderBy('id')->get();
-        $topic_info = compact('topic_id','topic_name','posts_count');
+//        $topic_info = compact('topic_id','topic_name','posts_count');
 
         return view('topic/detail', [
             'topics'=>$topics,
             'posts'=>$posts,
             'myposts'=>$myposts,
-            'topic_info'=>$topic_info]);
+            'topic_id'=>$topic_id,
+            'topic_name'=>$topic_name,
+            'posts_count'=>$posts_count,
+            'myposts_count'=>$myposts_count,
+        ]);
     }
 
     public function submit(Request $request){
+        $this->validate(request(),[
+            'post_ids' => 'required|array',
+        ]);
 
+        $topic_id = $request->query("topic_id");
+        $post_ids = $request->post("post_ids");
+
+        foreach($post_ids as $post_id){
+            DB::table('post_topics')->insertOrIgnore(
+                [
+                    'post_id' => $post_id,
+                    'topic_id'=> $topic_id,
+                    'created_at' => Carbon::now()->toDateTimeString(),
+                    'updated_at' => Carbon::now()->toDateTimeString(),
+                ]
+            );
+        }
+        return back();
 
     }
 }
