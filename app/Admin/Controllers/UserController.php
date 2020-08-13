@@ -18,7 +18,12 @@ class UserController extends Controller
             ->orderBy('created_at','desc')
             ->get();
 
-        return view('admin/user/index',compact('users'));
+        $users_count = count($users);
+
+        return view('admin/users/index',[
+            'users' => $users,
+            'users_count' => $users_count,
+        ]);
 
     }
 

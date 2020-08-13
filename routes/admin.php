@@ -14,10 +14,19 @@ Route::group(['prefix'=>'admin'], function(){
         //首页
         Route::get('/home','\App\Admin\Controllers\HomeController@index');
 
-        //管理人员模块
-        Route::get('/user','\App\Admin\Controllers\UserController@index');
-        Route::get('/user/create','\App\Admin\Controllers\UserController@create');
-        Route::post('/user/store','\App\Admin\Controllers\UserController@store');
+        //1.系统管理部分
+        //1.1 权限管理模块
+        Route::get('/permissions','\App\Admin\Controllers\PermissionController@index');
+
+
+        //1.2人员管理模块
+        Route::get('/users','\App\Admin\Controllers\UserController@index');
+        Route::get('/users/create','\App\Admin\Controllers\UserController@create');
+        Route::post('/users/store','\App\Admin\Controllers\UserController@store');
+
+        //1.3角色管理模块
+        Route::get('/roles','\App\Admin\Controllers\RoleController@index');
+
 
         //管理文章列表
         Route::get('/posts','\App\Admin\Controllers\PostController@index');
@@ -25,13 +34,17 @@ Route::group(['prefix'=>'admin'], function(){
         Route::post('/posts/{post}/status','\App\Admin\Controllers\PostController@changeStatus');
 
 
-        //管理专题列表
+        //专题管理模块
         Route::get('/topics','\App\Admin\Controllers\TopicController@index');
         //操作专题列表
         Route::get('/topics/create','\App\Admin\Controllers\TopicController@create');
         Route::post('/topics/store','\App\Admin\Controllers\TopicController@store');
 
         Route::post('/topics/{topic}/delete','\App\Admin\Controllers\TopicController@delete');
+
+
+        //通知管理模块
+        Route::get('/notices','\App\Admin\Controllers\NoticeController@index');
 
     });
 
