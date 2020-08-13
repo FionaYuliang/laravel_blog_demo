@@ -10,15 +10,7 @@ use phpDocumentor\Reflection\Types\True_;
 
 class UserController extends Controller
 {
-    /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
 
-    /**
-     * 管理员列表页面
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
-    //run ok
     public  function index()
     {
         $users = DB::table('admin_users')
@@ -30,9 +22,6 @@ class UserController extends Controller
 
     }
 
-    /**
-     * 管理员创建页面,run ok
-     */
     public function create()
     {
 

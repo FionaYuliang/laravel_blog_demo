@@ -1,29 +1,29 @@
-
 @extends("base.main")
-
 @section("content")
    <div  class="col-sm-8 blog-main">
        <div class="blog-post">
            <div class="panel panel-default">
                <div class="panel-heading">
-                   <h3 class="panel-title">{{$post->title}}</h3>
-                   @can('update',$post)
-                   <a href="/posts/{{$post->id}}/edit">
-                       <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-                   </a>
-                   @endcan
-                   @can('delete',$post)
-                   <a href="/posts/{{$post->id}}/delete">
-                       <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                   </a>
-                   @endcan
+                   <div>
+                       <h3 class="panel-title">{{$post->title}}</h3>
+                       <div  class="post-action">
+                           @can('update',$post)
+                               <a href="/posts/{{$post->id}}/edit">
+                                   <span class="glyphicon glyphicon-pencil" aria-hidden="true">编辑</span>
+                               </a>
+                           @endcan
+                           @can('delete',$post)
+                               <a href="/posts/{{$post->id}}/delete">
+                                   <span class="glyphicon glyphicon-remove" aria-hidden="true">删除</span>
+                               </a>
+                           @endcan
+                       </div>
+                   </div>
+
                </div>
                <div class="panel-body">
                    <p class="blog-post-meta">
-                       {{$post->created_at->toFormattedDateString()}}
-                       by <a href="#">
-                           {{$post->user->name}}
-                       </a>
+                       <a href="#">{{$post->user_id}}</a>  发表于 {{$post->created_at->toFormattedDateString()}}
                    </p>
                    <p>{{$post->content}}</p>
                </div>
@@ -41,16 +41,17 @@
             {{-- list group--}}
        <div class="panel panel-default">
            <div class="panel-heading">
-               <h3 class="panel-title">评论列表（x条评论）</h3>
+               <h3 class="panel-title">评论列表（{{$comments_count}}条评论）</h3>
            </div>
            <div class="panel-body">
                <ul class="list-group">
-                   @foreach($post->comments as $comment)
+                   @foreach($comments as $comment)
                        <li class="list-group-item">
-                           <h5>{{$comment->created_at}} by {{$comment->user->name}}</h5>
                            <div>
                                {{$comment->content}}
                            </div>
+                           <h6>{{$comment->user_id}} 在 {{$comment->created_at}} 发表评论</h6>
+
                        </li>
                    @endforeach
                </ul>
@@ -72,8 +73,5 @@
                </form>
            </div>
        </div>
-
-
    </div>
-
 @endsection

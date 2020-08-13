@@ -3,49 +3,58 @@
 @section("content")
         <div class="col-sm-8 blog-main">
             <div>
-                <div id="carousel-example" class="carousel slide" data-ride="carousel">
-                    <!-- Indicators -->
-                    <ol class="carousel-indicators">
-                        <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                        <li data-target="#carousel-example" data-slide-to="1"></li>
-                        <li data-target="#carousel-example" data-slide-to="2"></li>
-                    </ol><!-- Wrapper for slides -->
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <img src="http://ww1.sinaimg.cn/large/44287191gw1excbq6tb3rj21400migrz.jpg" alt="..." />
-                            <div class="carousel-caption">...</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://ww3.sinaimg.cn/large/44287191gw1excbq5iwm6j21400min3o.jpg" alt="..." />
-                            <div class="carousel-caption">...</div>
-                        </div>
-                        <div class="item">
-                            <img src="http://ww2.sinaimg.cn/large/44287191gw1excbq4kx57j21400migs4.jpg" alt="..." />
-                            <div class="carousel-caption">...</div>
-                        </div>
+                <div>
+                    <div>
+
                     </div>
-                    <!-- Controls -->
-                    <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-                        <span class="glyphicon glyphicon-chevron-left"></span></a>
-                    <a class="right carousel-control" href="#carousel-example" data-slide="next">
-                        <span class="glyphicon glyphicon-chevron-right"></span></a>
                 </div>
-            </div>        <div style="height: 20px;">
             </div>
             <div>
                 <div class="blog-post">
                     @foreach( $posts as $post)
-                    <h2 class="blog-post-title"><a href="/posts/{{$post->post_id}}">{{$post->title}}</a></h2>
-                    <p class="blog-post-meta">{{$post->created_at}} by
-                        <a href="/user/{{$post->user_id}}">{{$post->name}}</a></p>
-                    <p>{{$post->content}}</p>
-                    <p class="blog-post-meta">赞 0  | 评论 0</p>
-{{--                        {{$post->likes_count}}--}}
-{{--                        {{$post->comments_count}}--}}
+                    <div class="media">
+                        <div class="media-body">
+                            <h3 class="media-heading blog-post-title">
+                                <a href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}">{{$post->title}}</a></h3>
+
+                            <p class="blog-post-meta"> <a href="/user/{{$post->user_id}}">{{$post->name}}</a>
+                                发表于:  {{$post->created_at}}
+                            </p>
+                            <p>{{$post->content}}</p>
+                            <p class="blog-post-meta">
+                                <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-heart" aria-hidden="true"> 10 </span>
+                                </button>
+                                <button type="button" class="btn btn-default btn-sm" aria-label="Left Align">
+                                    <span class="glyphicon glyphicon-comment" aria-hidden="true"> 20 </span>
+                                </button>
+                            </p>
+                        </div>
+                    </div>
                     @endforeach
                 </div>
 {{--                {{$posts->links()}}--}}
 
             </div><!-- /.blog-main -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination">
+                    <li>
+                        <a href="#" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li>
+                        <a href="#" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
+
 @endsection

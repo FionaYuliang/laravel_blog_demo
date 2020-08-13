@@ -8,10 +8,15 @@
             <div class="row">
                 <div class="col-lg-10 col-xs-6">
                     <div class="box">
+
+                        @if($posts_count != 0)
+                        <div>
+                            <div class="alert alert-info" role="alert">
+                                您目前共有 {{$posts_count}} 篇待审核的文章</div>
+                        </div>
                         <div class="box-header with-border">
                             <h3 class="box-title">文章列表</h3>
                         </div>
-                        <!-- /.box-header -->
                         <div class="box-body">
                             <table class="table table-bordered">
                                 <tbody><tr>
@@ -33,6 +38,11 @@
                                 @endforeach
                                 </tbody></table>
                         </div>
+                        @else
+                        <div>
+                            <div class="alert alert-success" role="alert">目前没有待审核的文章 !</div>
+                        </div>
+                        @endif
 
                     </div>
                 </div>

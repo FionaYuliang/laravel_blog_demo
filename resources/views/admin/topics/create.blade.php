@@ -18,7 +18,7 @@
                         <div class="box-body">
                             <div class="form-group">
                                 <label for="exampleInputEmail1">专题名</label>
-                                <input type="text" class="form-control" name="tname">
+                                <input type="text" class="form-control" name="name">
                             </div>
                         </div>
                         <!-- /.box-body -->

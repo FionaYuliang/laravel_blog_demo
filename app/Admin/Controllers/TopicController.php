@@ -12,6 +12,8 @@ use phpDocumentor\Reflection\Types\True_;
 
 class TopicController extends Controller
 {
+
+    //专题列表页
     public  function index()
     {
         $topics = DB::table('topics')
@@ -19,25 +21,31 @@ class TopicController extends Controller
             ->orderBy('created_at','desc')
             ->get();
 
-        return view('admin/topics/index',['topics' =>  $topics]);
+        $topic_count = count($topics);
+
+        return view('admin/topics/index',[
+            'topics' =>  $topics,
+            'topic_count' => $topic_count]);
     }
 
-
+    //新增专题页面
     public function create()
     {
         return view('admin/topics/create');
     }
 
+    //新增专题行为
     public function store(Request $request)
     {
         $this->validate(request(),[
-            'tname' => 'required|string|max:10|min:2',
+            'name' => 'required|string|max:10|min:2',
         ]);
+
          $topic = new Topic();
-         $topic->name= $request->post('tname');
+         $topic->name= $request->post('name');
          $topic->save();
 
-          return redirect('admin/topics/index',['topic'=>$topic]);
+         return redirect('admin/topics');
     }
 
 

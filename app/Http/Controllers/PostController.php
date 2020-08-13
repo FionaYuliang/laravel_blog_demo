@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
+
+    //首页文章展示
     public function index()
     {
         //Post模型和PostController都属于model，相关可用php artisan help make:model命令查看
@@ -27,18 +29,35 @@ class PostController extends Controller
             ->orderBy('posts.created_at','desc')
             ->get();
 
+
+
         $topics = DB::table('topics')->select('*')->orderBy('id')->get();
 
         return view('posts/index',['posts'=>$posts],['topics'=>$topics]);
 
     }
 
-    public function detail(Post $post)
+    //文章详情页,需要展示文章信息/评论总数/评论列表
+    public function detail(Request $request)
     {
 
-        $post->load('comments'); // controller 中做好预加载，不要直接在View层查询
+         $post_id = $request->query('post_id');
 
-        return view("posts/detail",compact('post'));
+        $post = DB::table('posts')->select('*')
+            ->where('id','=',$post_id)
+            ->get();
+
+        $comments  = DB::table('comments')->select('*')
+            ->where('post_id','=',$post_id)
+            ->get();
+
+        $comments_count= count($comments);
+
+        return view("posts/detail",[
+            'post' => $post,
+            'comments' => $comments,
+            'comments_count'=>$comments_count,
+            ]);
     }
 
     public function create()
@@ -104,7 +123,7 @@ class PostController extends Controller
         $post->content= request('content');
         $post->save();
 
-        return redirect("posts/{$post->id}",compact('post'));
+        return redirect("posts/{$post->id}");
     }
 
     public function delete(Post $post)

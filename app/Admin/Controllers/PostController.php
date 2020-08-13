@@ -21,7 +21,11 @@ class PostController extends Controller
             ->where('status','=','0')
             ->get();
 
-        return view('admin/posts/index',['posts' =>  $posts]);
+        $posts_count = count($posts);
+
+        return view('admin/posts/index',[
+            'posts' =>  $posts,
+            'posts_count'=>$posts_count]);
 
     }
 

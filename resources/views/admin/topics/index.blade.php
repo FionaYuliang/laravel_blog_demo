@@ -5,11 +5,16 @@
         <div class="row">
             <div class="col-lg-10 col-xs-6">
                 <div class="box">
-
+                    <div>
+                        <div class="alert alert-info" role="alert">
+                            项目目前共有 {{$topic_count}} 个专题
+                        </div>
+                        <a type="button" class="btn " href="/admin/topics/create" >增加专题</a>
+                    </div>
                     <div class="box-header with-border">
                         <h3 class="box-title">专题列表</h3>
                     </div>
-                    <a type="button" class="btn " href="/admin/topics/create" >增加专题</a>
+
                     <!-- /.box-header -->
                     <div class="box-body">
                         <table class="table table-bordered">

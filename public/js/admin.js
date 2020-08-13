@@ -22,7 +22,7 @@
 
 
 function init(){
-
+//管理后台审批文章行为
 $('.post-audit').on('click', (event) =>{
     let target = $(event.target);
     let post_id = target.attr("data-post-id");
@@ -40,6 +40,8 @@ $('.post-audit').on('click', (event) =>{
     });
 });
 
+
+//删除专题行为
 $('.ordinary-delete').on('click', (event) =>{
     if(confirm("sure to delete this topic?") === false){
         return;

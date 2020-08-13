@@ -59,6 +59,7 @@ class TopicController extends Controller
         ]);
     }
 
+    //复选框选中的post_id投稿到当前专题中
     public function submit(Request $request){
         $this->validate(request(),[
             'post_ids' => 'required|array',
