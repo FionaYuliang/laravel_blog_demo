@@ -15,7 +15,7 @@
 
 
     <!-- Custom styles for this template -->
-    <link href="css/blog.css" rel="stylesheet">
+    <link href="../../../public/css/blog.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/wangEditor.min.css">
 
 
@@ -27,7 +27,7 @@
     <![endif]-->
 </head>
 <body>
-@include('base.nav')
+@include('layout.nav')
 <div class="container">
     <div class="blog-header">
     </div>
@@ -88,13 +88,13 @@
                 <!-- /.tab-content -->
         </div>
         </div><!-- /.blog-main -->
-        @include("base.sidebar")
+        @include("layout.sidebar")
     </div><!-- /.row -->
 
 </div><!-- /.container -->
 
 
-@include("base.footer")
+@include("layout.footer")
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->

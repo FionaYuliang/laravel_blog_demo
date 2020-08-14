@@ -1,7 +1,7 @@
-@extends("base.main")
+@extends("layout.main")
 @section("content")
     <div class="col-sm-8 blog-main">
-@include("base.errors")
+@include("layout.errors")
         <form action="/posts/index/store" method="POST">
 {{--            <input type="hidden" name="_token" value="{{csrf_token()}}">--}}
             {{csrf_field()}}

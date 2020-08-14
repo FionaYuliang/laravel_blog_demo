@@ -1,4 +1,4 @@
-@extends("base.main")
+@extends("layout.main")
 @section("content")
     <div class="col-sm-8">
         <blockquote>

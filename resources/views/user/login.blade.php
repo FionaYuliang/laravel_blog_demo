@@ -31,7 +31,7 @@
 <body>
 
 <div class="container">
-    @include("base.errors")
+    @include("layout.errors")
     <form class="form-signin" method="POST" action="/login">
         {{method_field("POST")}}
         {{csrf_field()}}

@@ -1,4 +1,4 @@
-@extends("base.main")
+@extends("layout.main")
 @section("content")
 <div class="col-sm-8 blog-main">
     <form class="form-horizontal" action="/user/5/setting" method="POST" enctype="multipart/form-data">

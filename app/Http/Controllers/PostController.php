@@ -20,7 +20,6 @@ class PostController extends Controller
 //        $posts = Post::orderBy('created_at','desc')->withCount(['comments','likes'])->paginate(6);
 //        return view('posts/index',compact('posts'));
 
-
         $posts = DB::table('posts')
             ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
                 'users.id as user_id','users.name')
@@ -29,11 +28,12 @@ class PostController extends Controller
             ->orderBy('posts.created_at','desc')
             ->get();
 
+        $posts = $posts->toArray();
 
+//        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
 
-        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
+      return view('posts/index',['posts'=>$posts]);
 
-        return view('posts/index',['posts'=>$posts],['topics'=>$topics]);
 
     }
 

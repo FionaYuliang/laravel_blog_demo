@@ -1,4 +1,4 @@
-@extends("base.main")
+@extends("layout.main2")
 @section("content")
    <div  class="col-sm-8 blog-main">
        <div class="blog-post">
