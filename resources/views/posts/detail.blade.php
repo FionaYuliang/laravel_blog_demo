@@ -1,4 +1,4 @@
-@extends("layout.main2")
+@extends("layout.main")
 @section("content")
    <div  class="col-sm-8 blog-main">
        <div class="blog-post">
@@ -23,11 +23,11 @@
                </div>
                <div class="panel-body">
                    <p class="blog-post-meta">
-                       <a href="#">{{$post->user_id}}</a>  发表于 {{$post->created_at->toFormattedDateString()}}
+                       <a href="#">{{$post->user_id}}</a>  发表于 {{$post->created_at}}
                    </p>
                    <p>{{$post->content}}</p>
                </div>
-               <div>
+{{--               <div>--}}
 {{--                   @if($post->like(\Auth::id())->exists())--}}
 {{--                       <a href="posts/{{$post->id}}/unzan"--}}
 {{--                          type="button" class="btn btn-default btn-lg">取消赞</a>--}}
@@ -35,8 +35,8 @@
 {{--                       <a href="posts/{{$post->id}}/zan"--}}
 {{--                          type="button" class="btn btn-primary btn-lg">赞</a>--}}
 {{--                       @endif--}}
-               </div>
-           </div>
+{{--               </div>--}}
+{{--           </div>--}}
        </div>
             {{-- list group--}}
        <div class="panel panel-default">

@@ -45,9 +45,12 @@ class PostController extends Controller
 
          $post_id = $request->query('post_id');
 
-        $post = DB::table('posts')->select('*')
+        $raw_result = DB::table('posts')->select('*')
             ->where('id','=',$post_id)
-            ->get();
+            ->get()
+            ->toArray();
+        $post  =$raw_result[0];
+//        dd($post);
 
         $comments  = DB::table('comments')->select('*')
             ->where('post_id','=',$post_id)
@@ -81,9 +84,6 @@ class PostController extends Controller
         $post->user_id = Auth::id();
         $post->save();
 
-//        $posts = DB::insert('insert * from posts inner join users on posts.user_id = users.id');
-//        $params = array_merge(request(['title','content']),compact('user_id'));
-//        $post = Post::create($params);
 
         return redirect("posts/index");
 
@@ -95,8 +95,7 @@ class PostController extends Controller
         $this->validate(request(),[
             'content' => 'required|string|min:5',
         ]);
-        //dd($post);
-        //dd($request->all());
+
         $comment = new Comment();
         $comment->user_id = Auth::id();
         $comment->post_id = $post->id;

@@ -27,8 +27,6 @@ Route::get('user/me/setting','UserController@setting');
 Route::post('user/settingStore','UserController@settingStore');
 
 
-
-
 //用户注册页面
 Route::get('register','RegisterController@index');
 //用户注册行为

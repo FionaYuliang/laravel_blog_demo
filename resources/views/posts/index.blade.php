@@ -3,7 +3,7 @@
         @foreach($posts as $post)
         <div class="col-md-12">
             <h4 class="blog-post-title">
-                <a href="/posts/{{$post->post_id}}"> {{$post->title}}</a>
+                <a href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}"> {{$post->title}}</a>
                </h4>
             <p class="blog-post-meta"> {{$post->created_at}} by<a href="/user/{{$post->user_id}}">{{$post->name}}</p>
             <p>{{$post->content}}</p>
@@ -18,12 +18,11 @@
             <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
         @endforeach
-
 @endsection
-    {{--<nav class="blog-pagination">--}}
-    {{--    <a class="btn btn-outline-primary" href="#">Older</a>--}}
-    {{--    <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>--}}
-    {{--</nav>--}}
+{{--    <nav class="blog-pagination">--}}
+{{--        <a class="btn btn-outline-primary" href="#">Older</a>--}}
+{{--        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>--}}
+{{--    </nav>--}}
 
 {{--    <nav aria-label="Page navigation">--}}
 {{--        <ul class="pagination">--}}
@@ -44,4 +43,5 @@
 {{--            </li>--}}
 {{--        </ul>--}}
 {{--    </nav>--}}
+
 

@@ -3,6 +3,8 @@
 namespace App\Admin\Controllers;
 
 use phpDocumentor\Reflection\Types\True_;
+use Illuminate\Support\Facades\Auth;
+
 
 class LoginController extends Controller
 {
@@ -23,7 +25,7 @@ class LoginController extends Controller
         ]);
 
         $user = request(['name','password']);
-        $response = \Auth::guard('admin')->attempt($user);
+        $response = Auth::guard('admin')->attempt($user, true);
 
         if ($response) {
             // 通过认证..
