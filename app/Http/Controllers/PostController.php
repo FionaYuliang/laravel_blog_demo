@@ -26,9 +26,11 @@ class PostController extends Controller
             ->where('status','=','1')
             ->join('users', 'posts.user_id', '=','users.id')
             ->orderBy('posts.created_at','desc')
+            ->take(6)
             ->get();
 
         $posts = $posts->toArray();
+
 
 //        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
 

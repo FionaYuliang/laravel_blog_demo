@@ -1,12 +1,10 @@
-@extends("layout.main2")
+@extends("layout.main")
 @section("content")
-    <!-- Example row of columns -->
-    <div class="row">
         @foreach($posts as $post)
-        <div class="col-md-4">
-            <h2 class="blog-post-title">
+        <div class="col-md-12">
+            <h4 class="blog-post-title">
                 <a href="/posts/{{$post->post_id}}"> {{$post->title}}</a>
-               </h2>
+               </h4>
             <p class="blog-post-meta"> {{$post->created_at}} by<a href="/user/{{$post->user_id}}">{{$post->name}}</p>
             <p>{{$post->content}}</p>
             <p class="blog-post-meta">
@@ -20,7 +18,6 @@
             <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
         </div>
         @endforeach
-    </div>
 
 @endsection
     {{--<nav class="blog-pagination">--}}
