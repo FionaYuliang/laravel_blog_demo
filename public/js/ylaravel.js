@@ -44,3 +44,23 @@ $('.follow-button').on( "click", function (event) {
         })
     }
 })
+
+//文章评论功能
+$('.create-comment').on('click', (event) =>{
+    let target = $(event.target);
+    let post_id = target.attr("data-post-id");
+    let content = document.getElementById("content");
+
+    console.log(content);
+
+    $.post("/posts/" + post_id +  "/comments",{
+        post_id:post_id,
+        content:content,
+    }, (data) => {
+        if (data.error != 0){
+            alert(data.msg);
+            return;
+        }
+    });
+});
+

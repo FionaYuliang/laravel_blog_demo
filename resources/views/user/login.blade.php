@@ -27,9 +27,7 @@
     <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-
 <body>
-
 <div class="container">
     @include("layout.errors")
     <form class="form-signin" method="POST" action="/login">

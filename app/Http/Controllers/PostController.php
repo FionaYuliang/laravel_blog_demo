@@ -16,9 +16,6 @@ class PostController extends Controller
     //首页文章展示
     public function index()
     {
-        //Post模型和PostController都属于model，相关可用php artisan help make:model命令查看
-//        $posts = Post::orderBy('created_at','desc')->withCount(['comments','likes'])->paginate(6);
-//        return view('posts/index',compact('posts'));
 
         $posts = DB::table('posts')
             ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
@@ -31,10 +28,9 @@ class PostController extends Controller
 
         $posts = $posts->toArray();
 
-
 //        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
 
-      return view('posts/index',['posts'=>$posts]);
+         return view('posts/index',['posts'=>$posts]);
 
 
     }
@@ -49,8 +45,8 @@ class PostController extends Controller
             ->where('id','=',$post_id)
             ->get()
             ->toArray();
-        $post  =$raw_result[0];
-//        dd($post);
+
+        $post  = $raw_result[0];
 
         $comments  = DB::table('comments')->select('*')
             ->where('post_id','=',$post_id)
@@ -71,7 +67,7 @@ class PostController extends Controller
         return view("posts/create");
     }
 
-    public function store()
+    public function store(Request $request)
     {
          $this->validate(request(),[
            'title' => 'required|string|max:100|min:10',
@@ -90,20 +86,25 @@ class PostController extends Controller
     }
 
     //    文章评论
-    public function comment(Post $post,Request $request)
+    public function comment(Request $request)
     {
-        $this->validate(request(),[
+        $this->validate(request(), [
             'content' => 'required|string|min:5',
         ]);
 
         $comment = new Comment();
         $comment->user_id = Auth::id();
-        $comment->post_id = $post->id;
-        $comment->content= request('content');
+        $comment->post_id = $request->post('post_id');
+        $comment->content = $request->post('content');
         $comment->save();
 
-        return view('posts/detail',compact('post'));
+        return [
+            'errors' =>'0',
+            'msg' => '',
+        ];
+
     }
+
 
     public function edit(Post $post)
     {
@@ -111,20 +112,24 @@ class PostController extends Controller
         return view("posts/edit",compact('post'));
     }
 
-    public function update(Post $post)
+    public function update(Request $request)
     {
         $this->validate(request(),[
             'title' => 'required|string|max:100|min:10',
             'content' => 'required|string|min:10',
         ]);
 
-        $this->authorize('update',$post);
+        $post_id = $request->query('post_id');
+        $post_title = $request->query('title') ;
+        $post_content= $request->query('content');
 
-        $post->title = request('title') ;
-        $post->content= request('content');
-        $post->save();
 
-        return redirect("posts/{$post->id}");
+            DB::table('posts')
+            ->where('id','=',$post_id)
+            ->update(['title'=>$post_title,'content'=>$post_content]);
+
+
+        return redirect("posts/{$post_id}");
     }
 
     public function delete(Post $post)

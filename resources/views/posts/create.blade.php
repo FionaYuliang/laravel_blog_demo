@@ -1,7 +1,8 @@
 @extends("layout.main")
 @section("content")
-    <div class="col-sm-8 blog-main">
+    <div class="blog-main">
 @include("layout.errors")
+
         <form action="/posts/index/store" method="POST">
 {{--            <input type="hidden" name="_token" value="{{csrf_token()}}">--}}
             {{csrf_field()}}
@@ -11,7 +12,8 @@
             </div>
             <div class="form-group">
                 <label>内容</label>
-                <div id="editor" class="form-control" placeholder="这里是内容"></div>
+                <textarea id="content" name="content" class="form-control" style="height:400px;max-height:500px;"  placeholder="请输入文章内容">
+                </textarea>
             </div>
             <button type="submit" class="btn btn-default">提交</button>
         </form>

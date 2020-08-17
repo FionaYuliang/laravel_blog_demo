@@ -17,11 +17,11 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{\Auth::user()->name}}</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
+                <ul class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/user/{{\Auth::user()->id}}">我的首页</a>
                     <a class="dropdown-item" href="/user/me/setting">个人设置</a>
                     <a class="dropdown-item" href="/logout">登出</a>
-                </div>
+                </ul>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

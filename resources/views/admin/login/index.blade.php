@@ -44,6 +44,11 @@
                 <input name="password" type="password" class="form-control" placeholder="密码">
                 <span class="glyphicon glyphicon-lock form-control-feedback"></span>
             </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="1" name="is_remember"> 记住我
+                </label>
+            </div>
             <div class="row">
                 <!-- /.col -->
                 @include('admin.layout.errors')

@@ -63,6 +63,8 @@ Route::get('topics/{topic}','TopicController@show');
 //专题投稿
 Route::post('topics/{topic}/submit','TopicController@submit');
 
+//通知功能
+Route::get('notice/','NoticeController@index');
 
 
 include_once('admin.php');
