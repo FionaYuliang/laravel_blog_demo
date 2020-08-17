@@ -88,12 +88,17 @@ class PostController extends Controller
     //    文章评论
     public function comment(Request $request)
     {
-        $this->validate(request(), [
-            'content' => 'required|string|min:5',
-        ]);
+
 
         $post_id = $request->post('post_id');
         $content = $request->post("content");
+
+        if(strlen($content) <= 5){
+            return [
+                'error' => 1,
+                'msg' => '评论内容不能小于5个字符',
+            ];
+        }
 
         $comment = new Comment();
         $comment->user_id = Auth::id();
@@ -123,9 +128,9 @@ class PostController extends Controller
             'content' => 'required|string|min:10',
         ]);
 
-        $post_id = $request->query('post_id');
-        $post_title = $request->query('title') ;
-        $post_content= $request->query('content');
+        $post_id = $request->post('post_id');
+        $post_title = $request->post('title') ;
+        $post_content= $request->post('content');
 
 
             DB::table('posts')
@@ -133,7 +138,7 @@ class PostController extends Controller
             ->update(['title'=>$post_title,'content'=>$post_content]);
 
 
-        return redirect("posts/{$post_id}");
+        return redirect("posts/{$post_id}?post_id=${post_id}");
     }
 
     public function delete(Post $post)
