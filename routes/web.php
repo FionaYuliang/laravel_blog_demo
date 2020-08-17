@@ -64,7 +64,7 @@ Route::get('topics/{topic}','TopicController@show');
 Route::post('topics/{topic}/submit','TopicController@submit');
 
 //通知功能
-Route::get('notice/','NoticeController@index');
+Route::get('notices','NoticeController@index');
 
 
 include_once('admin.php');

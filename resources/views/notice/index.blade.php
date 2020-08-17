@@ -1,4 +1,6 @@
 @extends("layout.main")
 @section("content")
-<h3>内容开发中</h3>
+<div class="jumbotron">
+    <h4>内容开发中</h4>
+</div>
 @endsection

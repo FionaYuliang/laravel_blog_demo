@@ -1,11 +1,11 @@
 @extends("layout.main")
 @section("content")
-@foreach($posts as $post)
     <div class="col-md-8 blog-main">
         <h3 class="pb-4 mb-4 font-italic border-bottom">
             首页文章
         </h3>
     </div>
+@foreach($posts as $post)
     <h4 class="blog-post-title">
         <a href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}"> {{$post->title}}</a>
        </h4>
@@ -20,30 +20,31 @@
         </button>
     </p>
     <p><a class="btn btn-secondary" href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}" role="button">View details &raquo;</a></p>
-@endsection
+@endforeach
+
 {{--    <nav class="blog-pagination">--}}
 {{--        <a class="btn btn-outline-primary" href="#">Older</a>--}}
 {{--        <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1" aria-disabled="true">Newer</a>--}}
 {{--    </nav>--}}
-
-{{--    <nav aria-label="Page navigation">--}}
-{{--        <ul class="pagination">--}}
-{{--            <li>--}}
-{{--                <a href="#" aria-label="Previous">--}}
-{{--                    <span aria-hidden="true">&laquo;</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--            <li><a href="#">1</a></li>--}}
-{{--            <li><a href="#">2</a></li>--}}
-{{--            <li><a href="#">3</a></li>--}}
-{{--            <li><a href="#">4</a></li>--}}
-{{--            <li><a href="#">5</a></li>--}}
-{{--            <li>--}}
-{{--                <a href="#" aria-label="Next">--}}
-{{--                    <span aria-hidden="true">&raquo;</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
-{{--        </ul>--}}
-{{--    </nav>--}}
-
-
+<div class="col-md-8 blog-main">
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-lg">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+@endsection

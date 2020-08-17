@@ -32,7 +32,7 @@
            <h5 class="panel-title">发表评论</h5>
        </div>
        <div class="panel-body">
-           <form action="/posts/{{$post->id}}/comments" method="POST">
+           <form method="POST">
                {{csrf_field()}}
                <div class="form-group">
                    <textarea id="content" row="4" style="height:400px;max-height:500px;" name="content" class="form-control"

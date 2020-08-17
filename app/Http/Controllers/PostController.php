@@ -92,15 +92,19 @@ class PostController extends Controller
             'content' => 'required|string|min:5',
         ]);
 
+        $post_id = $request->post('post_id');
+        $content = $request->post("content");
+
         $comment = new Comment();
         $comment->user_id = Auth::id();
-        $comment->post_id = $request->post('post_id');
-        $comment->content = $request->post('content');
+        $comment->post_id = $post_id;
+        $comment->content = $content;
         $comment->save();
 
+
         return [
-            'errors' =>'0',
-            'msg' => '',
+            'error' => 0,
+            'msg' => '评论成功',
         ];
 
     }
