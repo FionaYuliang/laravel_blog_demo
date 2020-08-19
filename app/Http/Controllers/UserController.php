@@ -89,7 +89,7 @@ class UserController extends Controller
         if($is_exist == 0){
             $entry = new \App\Follow();
             $entry->following_id = $user->id;
-            $entry->follower_id = Auth::id();
+            $entry->follower_id = \Auth::id();
             $entry->save();
         }
 
