@@ -31,7 +31,7 @@ class UserController extends Controller
         $stars_list = DB::table('follows')
             ->select('*')
             ->where('follower_id','=',$user->id)
-            ->get();
+            ->get()->toArray();
 
         if($stars_list != []){
             $stars_result_list  = [];
@@ -43,11 +43,12 @@ class UserController extends Controller
             $stars_result_list = 0;
         }
 
+
         // 当前用户粉丝用户列表
         $fans_list = DB::table('follows')
             ->select('*')
             ->where('following_id','=',$user->id)
-            ->get();
+            ->get()->toArray();
 
           if($fans_list != []){
               $fans_result_list  = [];
@@ -56,7 +57,7 @@ class UserController extends Controller
                   array_push($fans_result_list, $fan_info);
               }
           }else{
-              $fans_result_list = 0;
+             $fans_result_list = 0;
           }
 
         return view('user/profile',
