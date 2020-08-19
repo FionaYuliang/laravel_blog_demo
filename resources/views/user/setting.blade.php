@@ -1,28 +1,28 @@
 @extends("layout.main")
 @section("content")
-
-
-
-
-    <form class="form-horizontal" action="/user/5/setting" method="POST" enctype="multipart/form-data">
-        <input type="hidden" name="_token" value="RuzO8giZVe3C2PalHpxGydYXKvwqNxMwcxscznAb">
-        <div class="form-group">
-            <div class="'col-sm-2">
-                <label class="col-sm-2 control-label">用户名</label>
-                <p>{{\Auth::user()->name}}</p>
-                <button>修改用户名</button>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title text-muted" ">当前用户名:</h5>
+                    <h4 class="card-subtitle mb-2" style="padding-top: 20px;">{{\Auth::user()->name}}</h4>
+{{--                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>--}}
+                  <div class="" style="padding-top: 20px;"
+                    <form method="POST">
+                      <button class="btn btn-info" >修改用户名</button>
+                  </form>
+                </div>
+                </div>
+            </div>
+            <div class="card" style="margin-top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title text-muted">当前头像</h5>
+                    <div class="text-center">
+                        <img src="public/avadar.jpg" class="rounded" alt="...">
+                    </div>
+                    <button class="btn btn-info">修改头像</button>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">头像</label>
-            <img src="http://ww1.sinaimg.cn/large/006hVAtMgy1ghvblwnxvjj30n00n1abn.jpg" alt="..." class="img-thumbnail">
-            <div class="col-sm-4">
-                <img  class="preview_img" src="http://ww1.sinaimg.cn/large/006hVAtMly1ghtzjhlvenj30n00n1abn.jpg" alt="" class="img-rounded"
-                      style="border-radius:500px;">
-                <input class="file-loading preview_input" type="file" value="用户名"
-                       style="width:80px" name="avatar">
-            </div>
-        </div>
-        <button type="button" class="btn btn-info">修改</button>
-    </form>
+    </div>
 @endsection
