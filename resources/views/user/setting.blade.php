@@ -18,7 +18,8 @@
                 <div class="card-body">
                     <h5 class="card-title text-muted">当前头像</h5>
                     <div class="text-center">
-                        <img src="http://ww1.sinaimg.cn/large/006hVAtMly1ghwg15qddrj30n00n1abn.jpg" class="rounded" alt="...">
+                        <img src="http://ww1.sinaimg.cn/large/006hVAtMly1ghwg15qddrj30n00n1abn.jpg" class="rounded" alt="..."
+                        style="height: 100px;width: 100px;">
                     </div>
                     <button class="btn btn-info">修改头像</button>
                 </div>

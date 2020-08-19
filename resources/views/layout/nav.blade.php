@@ -16,7 +16,9 @@
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
-                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{\Auth::user()->name}}</a>
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="http://ww1.sinaimg.cn/large/006hVAtMly1ghwg15qddrj30n00n1abn.jpg" class="rounded" alt="..."
+                         style="height: 20px;width: 20px;">  {{\Auth::user()->name}}</a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown01">
                     <a class="dropdown-item" href="/user/{{\Auth::user()->id}}">我的首页</a>
                     <a class="dropdown-item" href="/user/me/setting">个人设置</a>
