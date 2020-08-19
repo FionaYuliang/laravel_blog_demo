@@ -105,8 +105,7 @@ class PostController extends Controller
             ];
         }
 
-
-        DB::table('users')->insertGetId([
+        DB::table('comments')->insertGetId([
             'post_id' => $post_id,
             'user_id' => $user_id,
             'content' =>$content,

@@ -46,7 +46,7 @@
    </p>
    <div class="collapse" id="collapseMakeComment">
        <div class="card card-body">
-           <form method="POST">
+           <div>
                {{csrf_field()}}
                <div class="form-group">
                    <textarea id="content" row="4" style="height:400px;max-height:500px;" name="content" class="form-control"
@@ -54,7 +54,7 @@
                </div>
                <button type="submit" class="btn btn-dark create-comment"
                        data-post-id="{{$post->id}}">评论</button>
-           </form>
+           </div>
        </div>
    </div>
 </div>
