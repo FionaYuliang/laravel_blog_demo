@@ -48,7 +48,6 @@ $('.follow-button').on( "click", function (event) {
 //文章评论功能
 $('.create-comment').on('click', (event) =>{
     let target = $(event.target);
-
     let post_id = target.attr("data-post-id");
     let contentEle = document.getElementById("content");
     let $content = $(contentEle)

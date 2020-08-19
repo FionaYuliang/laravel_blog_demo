@@ -74,11 +74,16 @@ class PostController extends Controller
            'content' => 'required|string|min:10',
         ]);
 
-        $post = new Post();
-        $post->title = request('title');
-        $post->content = request('content');
-        $post->user_id = Auth::id();
-        $post->save();
+
+        $post_title = request('title');
+        $post_content = request('content');
+        $post_user_id = Auth::id();
+
+        DB::table('posts')->insertGetId([
+            'title' => $post_title,
+            'content' => $post_content,
+            'user_id'=>$post_user_id,
+        ]);
 
 
         return redirect("posts/index");
@@ -89,7 +94,7 @@ class PostController extends Controller
     public function comment(Request $request)
     {
 
-
+        $user_id = \Auth::id();
         $post_id = $request->post('post_id');
         $content = $request->post("content");
 
@@ -100,17 +105,18 @@ class PostController extends Controller
             ];
         }
 
-        $comment = new Comment();
-        $comment->user_id = Auth::id();
-        $comment->post_id = $post_id;
-        $comment->content = $content;
-        $comment->save();
 
+        DB::table('users')->insertGetId([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'content' =>$content,
+            ]);
 
         return [
             'error' => 0,
             'msg' => '评论成功',
         ];
+
 
     }
 
@@ -133,9 +139,9 @@ class PostController extends Controller
         $post_content= $request->post('content');
 
 
-            DB::table('posts')
-            ->where('id','=',$post_id)
-            ->update(['title'=>$post_title,'content'=>$post_content]);
+        DB::table('posts')
+        ->where('id','=',$post_id)
+        ->update(['title'=>$post_title,'content'=>$post_content]);
 
 
         return redirect("posts/{$post_id}?post_id=${post_id}");

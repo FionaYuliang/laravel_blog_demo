@@ -33,10 +33,14 @@ class UserController extends Controller
             ->where('follower_id','=',$user->id)
             ->get();
 
-        $stars_result_list  = [];
-        foreach($stars_list as $stars){
-            $star_info= $model_user->getInfo($stars->following_id);
-            array_push($stars_result_list, $star_info);
+        if($stars_list != []){
+            $stars_result_list  = [];
+            foreach($stars_list as $stars){
+                $star_info= $model_user->getInfo($stars->following_id);
+                array_push($stars_result_list, $star_info);
+            }
+        }else{
+            $stars_result_list = 0;
         }
 
         // 当前用户粉丝用户列表
@@ -45,12 +49,15 @@ class UserController extends Controller
             ->where('following_id','=',$user->id)
             ->get();
 
-
-        $fans_result_list  = [];
-        foreach($fans_list as $fans){
-            $fan_info = $model_user->getInfo($fans->follower_id);
-            array_push($fans_result_list, $fan_info);
-        }
+          if($fans_list != []){
+              $fans_result_list  = [];
+              foreach($fans_list as $fans){
+                  $fan_info = $model_user->getInfo($fans->follower_id);
+                  array_push($fans_result_list, $fan_info);
+              }
+          }else{
+              $fans_result_list = 0;
+          }
 
         return view('user/profile',
             compact('userInfo','posts','stars_result_list','fans_result_list'));

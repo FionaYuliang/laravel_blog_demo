@@ -4,6 +4,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable
 {
@@ -52,9 +53,11 @@ class User extends Authenticatable
      */
     public function hasStar($uid)
     {
-        $is_follow = DB::table('follow')->select('*')
+        $user_id = \Auth::id();
+
+        $is_follow = DB::table('follows')->select('*')
             ->where('following_id', $uid)
-            ->where('follower_id',Auth::id())
+            ->where('follower_id',$user_id)
             ->exists();
 
         return $is_follow;

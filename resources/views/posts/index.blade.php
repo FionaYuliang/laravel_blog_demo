@@ -1,19 +1,18 @@
 @extends("layout.main")
 @section("content")
-    <div class="col-md-8 blog-main">
-        <h3 class="pb-4 mb-4 font-italic border-bottom">
+    <div class="col-md-8" >
+        <h3 class="pb-4 mb-4 font-italic border-bottom"style="margin-top: 40px">
             首页文章
         </h3>
     </div>
 @foreach($posts as $post)
+    <div class="blog-post" style="margin-top: 30Kpx">
     <h4 class="blog-post-title">
         <a href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}"> {{$post->title}}</a>
        </h4>
     <p class="blog-post-meta"> {{$post->created_at}} by<a href="/user/{{$post->user_id}}">{{$post->name}}</p>
     <p>{{$post->content}}</p>
     <p>
-
-
         <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-heart-fill" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
         </svg>  10
@@ -22,6 +21,7 @@
         </svg> 20
     </p>
     <p><a class="btn btn-secondary" href="/posts/{{$post->post_id}}?post_id={{$post->post_id}}" role="button">View details &raquo;</a></p>
+    </div>
 @endforeach
 
 {{--    <nav class="blog-pagination">--}}
