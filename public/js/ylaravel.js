@@ -5,43 +5,42 @@ editor.create()
 
 //关注该用户与取消关注该用户
 $('.follow-button').on( "click", function (event) {
-    var target = $(event.target);
-    var has_follow = target.attr('follow-value')
-    var user_id = target.attr('follow-user');
+    let target = $(event.target);
+    let has_follow = target.attr('follow-value')
+    let following_id = target.attr('follow-user');
     if (has_follow === 1) {
-        $.ajax({
-            url: "/user/" + user_id + "/unfollow",
-            method: 'POST',
-            dataType: "json",
-            success: function (data) {
-                if (data.error !== 0) {
-                    alert(data.msg);
-                    return;
-                }
+        $.post("/user/" + following_id +  "/unfollow",{
+            following_id:following_id,
+        }, (data) => {
+            if (data.error !== 0){
+                alert(data.msg);
+                return;
 
+            }else{
+                alert(data.msg);
                 target.attr('follow-value', 0);
                 target.text('关注');
-
+                location.reload()
             }
-        })
-    } else {
-        $.ajax({
-            url: "/user/" + user_id + "/follow",
-            method: 'POST',
-            dataType: "json",
-            success: function (data) {
-                console.log("data =>", data)
-                if (data.error !== 0) {
-                    alert(data.msg);
-                    return;
-                }
 
+            return false;
+        });
+    } else {
+        $.post("/user/" + following_id +  "/follow",{
+            following_id:following_id,
+        }, (data) => {
+            if (data.error !== 0){
+                alert(data.msg);
+                return;
+            }else{
+                alert(data.msg);
                 target.attr('follow-value', 1);
                 target.text('取消关注');
-                // alert("该刷新页面了");
-                // location.reload()
+                location.reload()
             }
-        })
+
+            return false;
+        });
     }
 })
 

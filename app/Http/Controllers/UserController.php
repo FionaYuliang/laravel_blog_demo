@@ -114,23 +114,19 @@ class UserController extends Controller
      * @param User $user
      * @return array
      */
-    public  function follow(User $user)
+    public  function follow(Request $request)
     {
-        // 1.   获取当前登录用户self_uid
-        // 2.   获取要关注用户target_uid
-        // 3.   在数据库中添加一条记录, 记录self_uid 关注了 target_uid
-        // 跟创建文章的逻辑是一样的
 
-        if($is_exist == 0){
-            $entry = new \App\Follow();
-            $entry->following_id = $user->id;
-            $entry->follower_id = \Auth::id();
-            $entry->save();
-        }
+        $following_id = $request->post('following_id');
+        $follwer_id = \Auth::id();
+
+
+        DB::table('follows')->insertGetId(
+            ['following_id'=>$following_id,'follower_id'=>$follwer_id]);
 
        return [
-           "error" => 0,
-             "msg" => "关注成功",
+           'error' => 0,
+             'msg' => '关注成功',
        ];
     }
 
@@ -139,19 +135,23 @@ class UserController extends Controller
      * @param User $user
      * @return array
      */
-    public function unfollow(User $user)
+    public function unfollow(Request $request)
     {
+
+        $following_id = $request->post('following_id');
+        $follwer_id = \Auth::id();
+
         $entry = DB::table('follows')
             ->select('*')
-            ->where('follower_id','=',Auth::id())
-            ->where('following_id','=',$user->id)
+            ->where('following_id','=',$following_id)
+            ->where('follower_id','=',$follwer_id)
             ->first();
 
         $entry->delete();
 
         return [
-            "error" => 0,
-            "msg" => "",
+            'error' => 0,
+            'msg' => '取消关注',
         ];
     }
 

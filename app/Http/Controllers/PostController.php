@@ -165,7 +165,7 @@ class PostController extends Controller
      //文章点赞
     public  function like(Request $request){
 
-        $post_id = $request->post('post_id');
+        $post_id = $request->post('following_id');
         $user_id = \Auth::id();
 
         DB::table('likes')->insertOrIgnore(
@@ -182,7 +182,7 @@ class PostController extends Controller
     //文章取消点赞
     public function unlike(Request $request){
 
-        $post_id = $request->post('post_id');
+        $post_id = $request->post('following_id');
         $user_id = \Auth::id();
 
         $entry = DB::table('likes')->select('*')
