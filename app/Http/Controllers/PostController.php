@@ -196,12 +196,10 @@ class PostController extends Controller
         $post_id = $request->post('post_id');
         $user_id = \Auth::id();
 
-        $entry = DB::table('likes')->select('*')
+         DB::table('likes')->select('*')
             ->where('post_id','=',$post_id)
             ->where('user_id','=',$user_id)
-            ->first();
-
-        $entry->delete();
+            ->delete();
 
         return [
             'error'=>0,

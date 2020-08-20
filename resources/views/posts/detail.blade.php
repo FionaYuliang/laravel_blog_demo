@@ -15,7 +15,7 @@
                         删除</button>
                     </a>
                     @else
-{{--                   @include('posts.like',['post'=>$post]);--}}
+                   @include('posts.like',['post'=>$post]);
                 @endif
                 </div>
 
