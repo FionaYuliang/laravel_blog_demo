@@ -120,19 +120,32 @@ class UserController extends Controller
         $following_id = $request->post('following_id');
         $follwer_id = \Auth::id();
 
+       $is_exist =  DB::table('follows')->select('*')
+            ->where('following_id','=',$following_id)
+            ->where('follower_id','=',$follwer_id)
+            ->exists();
 
-        DB::table('follows')->insertGetId(
-            ['following_id'=>$following_id,'follower_id'=>$follwer_id]);
+       if($is_exist == 0){
+           DB::table('follows')->insertGetId(
+               ['following_id'=>$following_id,'follower_id'=>$follwer_id]);
+           return [
+               'error' => 0,
+               'msg' => '关注成功',
+           ];
+       }else{
 
-       return [
-           'error' => 0,
-             'msg' => '关注成功',
-       ];
+           return [
+               'error' => 1,
+               'msg' => '不能重复关注',
+           ];
+       }
+
+
     }
 
     /**
-     * 当前用户取消关注其他用户
-     * @param User $user
+     * 登录用户取消当前其他用户
+     * @param Request $request
      * @return array
      */
     public function unfollow(Request $request)
@@ -151,7 +164,7 @@ class UserController extends Controller
 
         return [
             'error' => 0,
-            'msg' => '取消关注',
+            'msg' => '取消关注了',
         ];
     }
 

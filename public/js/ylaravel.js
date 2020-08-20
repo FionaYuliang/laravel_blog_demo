@@ -4,11 +4,11 @@ var editor = new E('#content')
 editor.create()
 
 //关注该用户与取消关注该用户
-$('.follow-button').on( "click", function (event) {
+$('.follow-button').on("click", function (event) {
     let target = $(event.target);
-    let has_follow = target.attr('follow-value')
+    let follow_value = target.attr('follow-value');
     let following_id = target.attr('follow-user');
-    if (has_follow === 1) {
+    if (follow_value === 1) {
         $.post("/user/" + following_id +  "/unfollow",{
             following_id:following_id,
         }, (data) => {
@@ -19,7 +19,7 @@ $('.follow-button').on( "click", function (event) {
             }else{
                 alert(data.msg);
                 target.attr('follow-value', 0);
-                target.text('关注');
+                target.text('关注该用户');
                 location.reload()
             }
 
