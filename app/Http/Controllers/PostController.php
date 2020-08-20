@@ -154,10 +154,8 @@ class PostController extends Controller
             'content' =>$content,
         ]);
 
-        return [
-            'error' => 0,
-            'msg' => '评论成功',
-        ];
+        return $this->asyncShowError("". "评论成功");
+
 
 
     }

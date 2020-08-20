@@ -70,6 +70,7 @@ class User extends Authenticatable
     public function haslike($post_id)
     {
         $user_id = \Auth::id();
+
         $is_like = DB::table('likes')
             ->select('*')
             ->where('post_id', '=',$post_id)
