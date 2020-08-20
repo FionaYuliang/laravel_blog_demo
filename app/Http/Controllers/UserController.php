@@ -63,25 +63,42 @@ class UserController extends Controller
         return view('user/profile',
             compact('userInfo','posts','stars_result_list','fans_result_list'));
     }
-    /**
-     * 个人设置页面
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
+
+    //个人设置页面
 
     public  function setting()
     {
         return view('user.setting');
     }
-    /**
-     * 个人设置行为
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
-     */
 
-    public  function settingStore()
+    //个人设置行为:修改用户名
+    public  function changeName(Request $request)
     {
-        return view('user.me');
+        $new_username = $request->post('new_username');
+        $user_id = \Auth::id();
+
+        DB::table('users')->where('id','=',$user_id)
+            ->update(['name'=>$new_username]);
+
+        DB::table('user_infos')->where('id','=',$user_id)
+            ->update(['username'=>$new_username]);
+
+        return [
+          'error'=>0,
+          'msg'=>'用户名修改成功',
+        ];
     }
 
+    //个人设置行为:修改头像
+    public  function changeAvatar()
+    {
+
+
+        return [
+            'error'=>0,
+            'msg'=>'头像修改成功',
+        ];
+    }
     /**
      *登录用户关注当前用户
      * @param User $user

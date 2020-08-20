@@ -67,3 +67,26 @@ $('.create-comment').on('click', (event) =>{
     return false;
 });
 
+
+//修改用户名
+$('.change-name').on('click', (event) =>{
+    let target = $(event.target);
+    let new_username = document.getElementsByClassName('new-name');
+    let new_name = $(new_username).val();
+
+    $.post("/user/changeName",{
+        new_username:new_name,
+    }, (data) => {
+        if (data.error !== 0){
+            alert(data.msg);
+        }else{
+            location.reload()
+        }
+    });
+    return false;
+});
+
+
+
+//修改头像
+

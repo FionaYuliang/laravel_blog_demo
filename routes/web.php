@@ -23,8 +23,10 @@ Route::post('user/{user}/unfollow','UserController@unfollow');
 
 //用户个人设置页面
 Route::get('user/me/setting','UserController@setting');
-//个人设置行为
-Route::post('user/settingStore','UserController@settingStore');
+//个人设置行为:修改用户名与头像
+Route::post('user/changeName','UserController@changeName');
+Route::post('user/changeAvatar','UserController@changeAvatar');
+
 
 
 //用户注册页面

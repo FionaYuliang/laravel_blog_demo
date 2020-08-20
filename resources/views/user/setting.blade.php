@@ -27,12 +27,13 @@
                                           <div class="input-group-prepend">
                                               <span class="input-group-text" id="basic-addon1">@</span>
                                           </div>
-                                          <input type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                                          <input type="text" class="form-control new-name" placeholder="New Username"
+                                              value="" aria-label="New-Username" aria-describedby="basic-addon1">
                                       </div>
                                   </div>
                                   <div class="modal-footer">
-                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                      <button type="button" class="btn btn-primary">Understood</button>
+                                      <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+                                      <button type="button" class="btn btn-primary change-name">确定</button>
                                   </div>
                               </div>
                           </div>
