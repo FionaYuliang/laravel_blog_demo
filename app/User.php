@@ -64,6 +64,23 @@ class User extends Authenticatable
     }
 
     /**
+     * 登录用户是否给当前post_id点赞了
+     * @param $post_id
+     */
+    public function haslike($post_id)
+    {
+        $user_id = \Auth::id();
+
+        $is_like = DB::table('likes')->select('*')
+            ->where('post_id', $post_id)
+            ->where('user_ud',$user_id)
+            ->exists();
+
+        return $is_like;
+    }
+
+
+    /**
      * 个人中心：获取用户相关信息
      * @param $uid
      * @return array

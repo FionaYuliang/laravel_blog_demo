@@ -6,9 +6,9 @@ editor.create()
 //关注该用户与取消关注该用户
 $('.follow-button').on("click", function (event) {
     let target = $(event.target);
-    let follow_value = target.attr('follow-value');
+    let follow_status = target.attr('follow-status');
     let following_id = target.attr('follow-user');
-    if (follow_value === 1) {
+    if (follow_status === "follow_true") {
         $.post("/user/" + following_id +  "/unfollow",{
             following_id:following_id,
         }, (data) => {
@@ -17,8 +17,7 @@ $('.follow-button').on("click", function (event) {
                 return;
 
             }else{
-                alert(data.msg);
-                target.attr('follow-value', 0);
+                target.attr('follow-status', "follow_false");
                 target.text('关注该用户');
                 location.reload()
             }
@@ -33,8 +32,7 @@ $('.follow-button').on("click", function (event) {
                 alert(data.msg);
                 return;
             }else{
-                alert(data.msg);
-                target.attr('follow-value', 1);
+                target.attr('follow-status', "follow_true");
                 target.text('取消关注');
                 location.reload()
             }
@@ -69,17 +67,39 @@ $('.create-comment').on('click', (event) =>{
 $('.post-like').on('click',(event) => {
     let target = $(event.target);
     let post_id = target.attr("data-post-id");
+    let like_status = target.attr('like-status');
 
-    $.post("/posts/" + post_id + "/like",{
-        post_id:post_id,
-    },(data)=> {
+    if(like_status === "like_false"){
+        $.post("/posts/" + post_id + "/like",{
+            post_id:post_id,
+        },(data)=> {
             if(data.error !== 0){
                 alert(data.msg);
             }else{
+                alert(data.msg);
+                target.attr('like_status', "like_true");
+                target.text('取消点赞');
                 location.reload()
             }
-    });
-    return false;
+        });
+        return false;
+    }else {
+        $.post("/posts/" + post_id + "/unlike",{
+            post_id:post_id,
+        },(data)=> {
+            if(data.error !== 0){
+                alert(data.msg);
+            }else{
+                alert(data.msg);
+                target.attr('like_status', "like_false");
+                target.text('点赞');
+                location.reload()
+            }
+        });
+        return false;
+    }
+
+
 });
 
 //修改用户名

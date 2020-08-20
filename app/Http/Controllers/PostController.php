@@ -165,24 +165,35 @@ class PostController extends Controller
      //文章点赞
     public  function like(Request $request){
 
-        $post_id = $request->post('following_id');
+        $post_id = $request->post('post_id');
         $user_id = \Auth::id();
 
-        DB::table('likes')->insertOrIgnore(
-            ['post_id' => $post_id, 'user_id' => $user_id]
-        );
+        $is_exist = DB::table('likes')->select('*')
+            ->where('post_id','=',$post_id)
+            ->where('user_id','=',$user_id)
+            ->exists();
 
+        if($is_exist == 0){
+            DB::table('likes')->insertOrIgnore(
+                ['post_id' => $post_id, 'user_id' => $user_id]
+            );
+            return [
+                'error'=> 0,
+                'msg'=>'谢谢你的点赞!',
+            ];
+        }else{
 
-        return [
-                'error'=>0,
-            'msg'=>'谢谢你的点赞!',
-        ];
+            return [
+                'error'=> 1,
+                'msg'=>'你已经点过赞啦,可以试试关注',
+            ];
+        }
     }
 
     //文章取消点赞
     public function unlike(Request $request){
 
-        $post_id = $request->post('following_id');
+        $post_id = $request->post('post_id');
         $user_id = \Auth::id();
 
         $entry = DB::table('likes')->select('*')

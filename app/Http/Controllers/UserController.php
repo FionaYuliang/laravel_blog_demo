@@ -152,15 +152,15 @@ class UserController extends Controller
     {
 
         $following_id = $request->post('following_id');
-        $follwer_id = \Auth::id();
+
+        $follower_id = \Auth::id();
 
         $entry = DB::table('follows')
             ->select('*')
             ->where('following_id','=',$following_id)
-            ->where('follower_id','=',$follwer_id)
-            ->first();
+            ->where('follower_id','=',$follower_id)
+            ->delete();
 
-        $entry->delete();
 
         return [
             'error' => 0,
