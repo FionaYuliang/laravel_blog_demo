@@ -3,7 +3,7 @@ var editor = new E('#content')
 // 或者 var editor = new E( document.getElementById('editor') )
 editor.create()
 
-
+//关注该用户与取消关注该用户
 $('.follow-button').on( "click", function (event) {
     var target = $(event.target);
     var has_follow = target.attr('follow-value')
@@ -52,7 +52,6 @@ $('.create-comment').on('click', (event) =>{
     let contentEle = document.getElementById("content");
     let $content = $(contentEle)
     let content = $content.val()
-    console.log(content);
 
     $.post("/posts/" + post_id +  "/comments",{
         post_id:post_id,
@@ -67,6 +66,22 @@ $('.create-comment').on('click', (event) =>{
     return false;
 });
 
+//文章点赞与取消点赞
+$('.post-like').on('click',(event) => {
+    let target = $(event.target);
+    let post_id = target.attr("data-post-id");
+
+    $.post("/posts/" + post_id + "/like",{
+        post_id:post_id,
+    },(data)=> {
+            if(data.error !== 0){
+                alert(data.msg);
+            }else{
+                location.reload()
+            }
+    });
+    return false;
+});
 
 //修改用户名
 $('.change-name').on('click', (event) =>{

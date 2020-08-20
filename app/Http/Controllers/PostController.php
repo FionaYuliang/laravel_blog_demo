@@ -28,6 +28,7 @@ class PostController extends Controller
 
         $posts = $posts->toArray();
 
+
 //        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
 
          return view('posts/index',['posts'=>$posts]);
@@ -54,10 +55,16 @@ class PostController extends Controller
 
         $comments_count= count($comments);
 
+        $like_count = DB::table('likes')
+            ->select('*')
+            ->where('post_id','=',$post_id)
+            ->count();
+
         return view("posts/detail",[
             'post' => $post,
             'comments' => $comments,
             'comments_count'=>$comments_count,
+            'like_count'=>$like_count,
             ]);
     }
 
@@ -89,36 +96,6 @@ class PostController extends Controller
         return redirect("posts/index");
 
     }
-
-    //    文章评论
-    public function comment(Request $request)
-    {
-
-        $user_id = \Auth::id();
-        $post_id = $request->post('post_id');
-        $content = $request->post("content");
-
-        if(strlen($content) <= 5){
-            return [
-                'error' => 1,
-                'msg' => '评论内容不能小于5个字符',
-            ];
-        }
-
-        DB::table('comments')->insertGetId([
-            'post_id' => $post_id,
-            'user_id' => $user_id,
-            'content' =>$content,
-            ]);
-
-        return [
-            'error' => 0,
-            'msg' => '评论成功',
-        ];
-
-
-    }
-
 
     public function edit(Post $post)
     {
@@ -154,5 +131,71 @@ class PostController extends Controller
         $post->delete();
 
         return redirect("posts/index");
+    }
+
+    //    文章评论
+    public function comment(Request $request)
+    {
+
+        $user_id = \Auth::id();
+        $post_id = $request->post('post_id');
+        $content = $request->post("content");
+
+        if(strlen($content) <= 5){
+            return [
+                'error' => 1,
+                'msg' => '评论内容不能小于5个字符',
+            ];
+        }
+
+        DB::table('comments')->insertGetId([
+            'post_id' => $post_id,
+            'user_id' => $user_id,
+            'content' =>$content,
+        ]);
+
+        return [
+            'error' => 0,
+            'msg' => '评论成功',
+        ];
+
+
+    }
+
+     //文章点赞
+    public  function like(Request $request){
+
+        $post_id = $request->post('post_id');
+        $user_id = \Auth::id();
+
+        DB::table('likes')->insertOrIgnore(
+            ['post_id' => $post_id, 'user_id' => $user_id]
+        );
+
+
+        return [
+                'error'=>0,
+            'msg'=>'谢谢你的点赞!',
+        ];
+    }
+
+    //文章取消点赞
+    public function unlike(Request $request){
+
+        $post_id = $request->post('post_id');
+        $user_id = \Auth::id();
+
+        $entry = DB::table('likes')->select('*')
+            ->where('post_id','=',$post_id)
+            ->where('user_id','=',$user_id)
+            ->first();
+
+        $entry->delete();
+
+        return [
+            'error'=>0,
+            'msg'=>'取消点赞',
+        ];
+
     }
 }

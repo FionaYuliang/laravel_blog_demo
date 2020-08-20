@@ -130,7 +130,7 @@ class UserController extends Controller
 
        return [
            "error" => 0,
-             "data" => "关注成功",
+             "msg" => "关注成功",
        ];
     }
 
@@ -146,11 +146,12 @@ class UserController extends Controller
             ->where('follower_id','=',Auth::id())
             ->where('following_id','=',$user->id)
             ->first();
+
         $entry->delete();
 
         return [
             "error" => 0,
-            "data" => "",
+            "msg" => "",
         ];
     }
 
