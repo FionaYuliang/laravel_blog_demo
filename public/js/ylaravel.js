@@ -87,6 +87,21 @@ $('.change-name').on('click', (event) =>{
 });
 
 
-
 //修改头像
 
+$('.change-avatar').on('click', (event) =>{
+    let target = $(event.target);
+    let new_avatar = document.getElementsByClassName('new-avatar');
+    let avatar_url = $(new_avatar).val();
+
+    $.post("/user/changeAvatar",{
+        avatar_url:avatar_url,
+    }, (data) => {
+        if (data.error !== 0){
+            alert(data.msg);
+        }else{
+            location.reload()
+        }
+    });
+    return false;
+});

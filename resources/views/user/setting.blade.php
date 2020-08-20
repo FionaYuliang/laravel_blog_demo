@@ -45,7 +45,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-muted">当前头像</h5>
                     <div class="text-center">
-                        <img src="http://ww1.sinaimg.cn/large/006hVAtMly1ghwg15qddrj30n00n1abn.jpg" class="rounded" alt="..."
+                        <img src="{{$avatar_url}}" class="rounded" alt="..."
                         style="height: 100px;width: 100px;">
                     </div>
                     <!-- Button trigger modal -->
@@ -74,12 +74,12 @@
                                                 </svg>
                                             </span>
                                         </div>
-                                        <input type="text" class="form-control" placeholder="URL" aria-label="avatar_url" aria-describedby="addon-wrapping">
+                                        <input type="text" class="form-control new-avatar" name="new-avater" placeholder="Image URL" aria-label="new-avatar" aria-describedby="addon-wrapping">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-                                    <button type="button" class="btn btn-primary">确定</button>
+                                    <button type="button" class="btn btn-primary change-avatar">确定</button>
                                 </div>
                             </div>
                         </div>

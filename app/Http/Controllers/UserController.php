@@ -68,7 +68,12 @@ class UserController extends Controller
 
     public  function setting()
     {
-        return view('user.setting');
+        $my_id = \Auth::id();
+
+        $avatar_url =  DB::table('user_infos')->where('user_id','=',$my_id)
+            ->value('avatar_url');
+
+        return view('user/setting',['avatar_url'=>$avatar_url]);
     }
 
     //个人设置行为:修改用户名
@@ -90,9 +95,14 @@ class UserController extends Controller
     }
 
     //个人设置行为:修改头像
-    public  function changeAvatar()
+    public  function changeAvatar(Request $request)
     {
 
+        $avatar_url = $request->post('avatar_url');
+        $user_id = \Auth::id();
+
+        DB::table('user_infos')->where('id','=',$user_id)
+            ->update(['avatar_url'=>$avatar_url]);
 
         return [
             'error'=>0,
