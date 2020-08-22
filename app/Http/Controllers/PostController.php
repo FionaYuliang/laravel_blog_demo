@@ -25,13 +25,14 @@ class PostController extends Controller
     //使用分页器展示文章列表页，默认$page_num=1
     public function index(Request $request){
 
-        $page_num = $request->query("page", 1);
-        $data = $this->initData($page_num);
+        $current_page = $request->query("page", 1);
+        $data = $this->initData($current_page);
 
         $posts= $data['posts'];
         $max_page = $data['max_page'];
 
-        return view('posts/index',['posts'=>$posts,'max_page'=>$max_page]);
+
+        return view('posts/index',['posts'=>$posts,'max_page'=>$max_page,'current_page'=>$current_page]);
     }
 
 
