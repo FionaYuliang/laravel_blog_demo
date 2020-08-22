@@ -15,26 +15,37 @@ use App\Topic as MTopic;
 class TopicController extends Controller
 {
 
-    //专题详情页
-    public  function show(Request $request){
-
-        $topic_id =$request->query('topic_id');
-
-        $result = MTopic::Instance()->getPostList($topic_id);
-
-        $topic_id = $result['topic_id'];
-        $topic_name = $result['topic_name'];
-        $post_id_list = $result['post_id_list'];
-
-        //根据某个主题的全部文章id列表,查找出所有的文章信息
-        $posts = MPost::Instance()->get_pdetail_By_pid($post_id_list);
-        $posts_count = count($posts);
+    public function show_myposts($post_id_list){
 
         //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表(用于传递给modal)
         $uid = Auth::id();
-        $myposts = MPost::Instance()->get_mypost_notin($uid,$post_id_list);
+        $myposts = MPost::Instance()->get_myposts($uid,$post_id_list);
         $myposts_count = count($myposts);
 
+        return ['myposts'=>$myposts,'mp_count'=>$myposts_count];
+    }
+
+    //专题详情页
+    public  function TPostPaginte(Request $request){
+
+        $topic_id =$request->query('topic_id');
+        $current_page = $request->query('page_num');
+
+        $topic_name= MTopic::Instance()->get_topic_name($topic_id);
+        $post_id_list = MTopic::Instance()->get_pid_list($topic_id);
+
+        //tpost 分页展示
+        $result = MPost::Instance()->getTpostNum($post_id_list);
+        $posts = MPost::Instance()->getPagePost($current_page);
+
+        $tposts_count = $result['total_entry'];
+        $max_page = $result['max_page'];
+
+        $mp_result = $this->show_myposts($post_id_list);
+        $myposts = $mp_result['myposts'];
+        $myposts_count = $mp_result['mp_count'];
+
+        //日常引入topics
         $topics = MTopic::Instance()->getSidebar();
 
         return view('topic/detail', [
@@ -43,7 +54,9 @@ class TopicController extends Controller
             'myposts'=>$myposts,
             'topic_id'=>$topic_id,
             'topic_name'=>$topic_name,
-            'posts_count'=>$posts_count,
+            'tposts_count'=>$tposts_count,
+            'current_page' => $current_page,
+            'max_page' =>$max_page,
             'myposts_count'=>$myposts_count,
         ]);
     }

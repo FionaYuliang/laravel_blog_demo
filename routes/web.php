@@ -61,7 +61,7 @@ Route::group(['middleware'=>'auth'],function() {
     Route::get('posts/{post}/delete', 'PostController@delete');
 
     //专题详情页
-    Route::get('topics/{topic}', 'TopicController@show');
+    Route::get('topics/{topic}', 'TopicController@TPostPaginte');
     //专题投稿
     Route::post('topics/{topic}/submit', 'TopicController@submit');
 

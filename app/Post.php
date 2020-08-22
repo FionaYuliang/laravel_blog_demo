@@ -80,24 +80,44 @@ class Post extends BaseModel
         ];
     }
 
+//根据某个主题的全部文章id列表,查找出所有的文章信息，用于专题详情页文章列表的分页展示
 
-    public function get_pdetail_By_pid($post_id_list)
+    public  function getTpostNum($post_id_list)
+    {
+        $total_entry = DB::table('posts')
+            ->whereIn('id',$post_id_list)
+            ->count();
+
+        $page_size = 4;
+        $max_page = ceil($total_entry/$page_size);
+
+        return ['total_entry'=>$total_entry, 'max_page'=> $max_page];
+
+    }
+
+    public function getTopicPost($current_page,$post_id_list)
     {
 
-        //根据某个主题的全部文章id列表,查找出所有的文章信息
+        $page_size = 4;
+        $offset_value = $page_size * ($current_page - 1);
 
         $posts = DB::table('posts')
-            ->join('users','posts.user_id','=','users.id')
-            ->select('posts.*','users.id','users.name')
-            ->where('posts.status','=','1')
-            ->whereIn('posts.id',$post_id_list)
+            ->where('status','=','1')
+            ->whereIn('id',$post_id_list)
+            ->join('users', 'posts.user_id', '=','users.id')
+            ->select('posts.*','users.*')
+            ->offset($offset_value)
+            ->limit($page_size)
             ->get();
+
+        $posts = $posts->toArray();
 
         return  $posts;
     }
 
+
     //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表
-    public function get_mypost_notin($uid,$post_id_list)
+    public function get_myposts($uid,$post_id_list)
     {
 
         $myposts = DB::table('posts')->select('id','title')

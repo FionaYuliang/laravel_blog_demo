@@ -9,33 +9,33 @@ use App\BaseModel;
 
 class Topic extends BaseModel
 {
-    public function getPostList($topic_id){
 
-        $topic_name = DB::table('topics')
-            ->select('name')
-            ->where('id','=',$topic_id)
-            ->get();
+    public function get_topic_name($topic_id)
+    {
+        $topic_name = DB::table('topics')->where('id','=',$topic_id)->value('name');
+
+        return $topic_name;
+
+    }
+
+    //根据专题id，获取该专题的文章id列表 post_id_list/pid_list
+    public function get_pid_list($topic_id){
 
         $post_id= DB::table('post_topics')
             ->select('post_id')
             ->where('topic_id','=',$topic_id)
             ->get();
 
-        $raw_post_id_list =  $post_id->toArray();
-        $post_id_list = [];
+        $raw_pid_list =  $post_id->toArray();
 
-        //$post_id_list 指的是某个主题的全部文章id列表
-        foreach($raw_post_id_list as $raw_id){
-            array_push($post_id_list, $raw_id->post_id);
+        $pid_list = [];
+
+        foreach($raw_pid_list as $raw_id){
+            array_push($pid_list, $raw_id->post_id);
         }
-        //获取当前专题的post_id_list
 
-        return [
-            'topic_id'=>$topic_id,
-            'topic_name' => $topic_name,
-            'post_id_list' => $post_id_list];
+        return  $pid_list;
     }
-
 
 
     //获取专题列表名称

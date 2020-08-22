@@ -18,7 +18,6 @@
                    @include('posts.like',['post'=>$post])
                 @endif
                 </div>
-
             </div>
         </div>
        <div style="margin-top: 20px;">
