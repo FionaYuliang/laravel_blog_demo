@@ -33,5 +33,35 @@ class Post extends Model
         return $post_count;
     }
 
+
+    public function getPageSum(){
+        $total_entry = DB::table('posts')->select('*')->count();
+        $page_size = 4;
+        $max_page = ceil($total_entry/$page_size);
+
+
+        return $max_page;
+
+    }
+    public function getPaginatePost($current_page){
+
+        $page_size = 4;
+        $offset_value = $page_size * ($current_page - 1);
+
+        $posts = DB::table('posts')
+            ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
+                'users.id as user_id','users.name')
+            ->where('status','=','1')
+            ->join('users', 'posts.user_id', '=','users.id')
+            ->orderBy('posts.created_at','desc')
+            ->offset($offset_value)
+            ->limit($page_size)
+            ->get();
+
+        $posts = $posts->toArray();
+
+        return $posts;
+    }
+
 }
 

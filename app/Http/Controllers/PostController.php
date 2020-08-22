@@ -13,28 +13,27 @@ use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
 
-    //首页文章展示
-    public function index()
+    public function initData($page_num)
     {
+        $mpost = new Post();
+        $posts = $mpost->getPaginatePost($page_num);
+        $max_page = $mpost->getPageSum();
 
-        $posts = DB::table('posts')
-            ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
-                'users.id as user_id','users.name')
-            ->where('status','=','1')
-            ->join('users', 'posts.user_id', '=','users.id')
-            ->orderBy('posts.created_at','desc')
-            ->take(10)
-            ->get();
-
-        $posts = $posts->toArray();
-
-
-//        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
-
-         return view('posts/index',['posts'=>$posts]);
-
-
+        return ['posts'=>$posts, 'max_page'=>$max_page];
     }
+
+    //使用分页器展示文章列表页，默认$page_num=1
+    public function index(Request $request){
+
+        $page_num = $request->query("page", 1);
+        $data = $this->initData($page_num);
+
+        $posts= $data['posts'];
+        $max_page = $data['max_page'];
+
+        return view('posts/index',['posts'=>$posts,'max_page'=>$max_page]);
+    }
+
 
     //文章详情页,需要展示文章信息/评论总数/评论列表
     public function detail(Request $request)
@@ -47,7 +46,9 @@ class PostController extends Controller
             ->get()
             ->toArray();
 
+
         $post  = $raw_result[0];
+
 
         $comments  = DB::table('comments')->select('*')
             ->where('post_id','=',$post_id)
