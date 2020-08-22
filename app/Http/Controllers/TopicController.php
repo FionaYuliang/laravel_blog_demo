@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Like;
-use App\Post;
-use App\User;
+use App\Post as MPost;
+use App\User as MUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -14,39 +14,28 @@ use App\Topic as MTopic;
 
 class TopicController extends Controller
 {
+
+    //专题详情页
     public  function show(Request $request){
 
-        $uri =$request->getRequestUri();
-        $array = explode('/' , $uri);
-        $topic_id = $array[2];
+        $topic_id =$request->query('topic_id');
 
         $result = MTopic::Instance()->getPostList($topic_id);
+
         $topic_id = $result['topic_id'];
         $topic_name = $result['topic_name'];
         $post_id_list = $result['post_id_list'];
 
         //根据某个主题的全部文章id列表,查找出所有的文章信息
-        $posts = DB::table('posts')
-            ->select('*')
-            ->where('status','=','1')
-            ->whereIn('id',$post_id_list)
-            ->get();
-
-        //找出来之后,用count()就行啦,无需使用sql的count
+        $posts = MPost::Instance()->get_pdetail_By_pid($post_id_list);
         $posts_count = count($posts);
 
-        //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表,并传递给
+        //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表(用于传递给modal)
         $uid = Auth::id();
-        $myposts = DB::table('posts')->select('id','title')
-            ->where('user_id','=',$uid)
-            ->whereNotIn('id',$post_id_list)
-            ->get();
+        $myposts = MPost::Instance()->get_mypost_notin($uid,$post_id_list);
         $myposts_count = count($myposts);
 
-
-        //原生sql查询,要照顾到侧边栏的专题列表,这里暂时再查一遍
-        $topics = DB::table('topics')->select('*')->orderBy('id')->get();
-//        $topic_info = compact('topic_id','topic_name','posts_count');
+        $topics = MTopic::Instance()->getSidebar();
 
         return view('topic/detail', [
             'topics'=>$topics,

@@ -36,4 +36,17 @@ class Topic extends BaseModel
             'post_id_list' => $post_id_list];
     }
 
+
+
+    //获取专题列表名称
+    public function getSidebar()
+    {
+
+       $topics =  DB::table('topics')->get();
+
+        return $topics;
+
+    }
+
+
 }

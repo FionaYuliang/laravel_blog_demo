@@ -40,7 +40,7 @@
                </div>
            </div>
        </div>
-   <div style="margin-top: 20px;">
+        <div style="margin-top: 20px;">
     <p>
         <button class="btn btn-dark" type="button" data-toggle="collapse" data-target="#collapseMakeComment" aria-expanded="false" aria-controls="collapseMakeComment">
            发表评论

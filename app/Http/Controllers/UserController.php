@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Topic as MTopic;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -60,8 +61,11 @@ class UserController extends Controller
              $fans_result_list = 0;
           }
 
+
+        $topics = MTopic::Instance()->getSidebar();
+
         return view('user/profile',
-            compact('userInfo','posts','stars_result_list','fans_result_list'));
+            compact('userInfo','posts','stars_result_list','fans_result_list','topics'));
     }
 
     //个人设置页面

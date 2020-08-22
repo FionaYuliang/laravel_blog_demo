@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Comment;
 use App\Like;
-use App\Post;
+use App\Post as MPost;
 use App\User;
+use App\Topic as MTopic;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,28 +14,25 @@ use Illuminate\Support\Facades\DB;
 class PostController extends Controller
 {
 
-    public function initData($page_num)
-    {
-        $mpost = new Post();
-        $posts = $mpost->getPaginatePost($page_num);
-        $max_page = $mpost->getPageSum();
+    //网站首页
+     public  function index(Request $request)
+     {
+         $current_page = $request->query("page", 1);
 
-        return ['posts'=>$posts, 'max_page'=>$max_page];
-    }
+         $result = MPost::Instance()->showPagePost($current_page);
+         $topics = MTopic::Instance()->getSidebar();
 
-    //使用分页器展示文章列表页，默认$page_num=1
-    public function index(Request $request){
+        $posts = $result['posts'];
+        $max_page = $result['max_page'];
 
-        $current_page = $request->query("page", 1);
-        $data = $this->initData($current_page);
+        return view('posts/index',[
+            'posts' => $posts,
+            'topics' => $topics,
+            'current_page' => $current_page,
+            'max_page' => $max_page
+        ]);
 
-        $posts= $data['posts'];
-        $max_page = $data['max_page'];
-
-
-        return view('posts/index',['posts'=>$posts,'max_page'=>$max_page,'current_page'=>$current_page]);
-    }
-
+     }
 
     //文章详情页,需要展示文章信息/评论总数/评论列表
     public function detail(Request $request)
@@ -62,11 +60,14 @@ class PostController extends Controller
             ->where('post_id','=',$post_id)
             ->count();
 
+        $topics = MTopic::Instance()->getSidebar();
+
         return view("posts/detail",[
             'post' => $post,
             'comments' => $comments,
             'comments_count'=>$comments_count,
             'like_count'=>$like_count,
+            'topics'=>$topics
             ]);
     }
 
