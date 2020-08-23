@@ -11,8 +11,11 @@ use App\BaseModel;
 
 class Post extends BaseModel
 {
+    private $page_size = 4;
 
     protected $fillable = ['title','content'];
+
+
     // 关联模型：一对一反向关联
     public function user()
     {
@@ -25,36 +28,55 @@ class Post extends BaseModel
     }
 
 
-
-    //获得当前用户的文章数量
-    public function  getPostCount($param)
-    {
-        $post_count = DB::table('posts')
-            ->where('user_id','=',$param)->count();
-
-        return $post_count;
-    }
-
-    //获得当前用户的文章分页
-
-
-
-
-    //获得数据库所有的文章数量，并计算出页数
-    public function getMaxPage()
+    //获取网站首页文章总数量
+    public function getDBPostCount()
     {
         $total_entry = DB::table('posts')->count();
-        $page_size = 4;
-        $max_page = ceil($total_entry/$page_size);
+
+        return $total_entry;
+    }
+
+    //获得当前用户的文章总数量
+    public function  getUserPostCount($param)
+    {
+        $total_entry = DB::table('posts')
+            ->where('user_id','=',$param)->count();
+
+        return $total_entry;
+    }
+
+    //获取某个专题下的文章总数量
+    public function getTPostCount($topic_id){
+
+        $total_entry  = DB::table('post_topics')
+            ->select('post_id')
+            ->where('topic_id','=',$topic_id)
+            ->count();
+
+        return $total_entry;
+    }
+
+    //根据文章数量获取文章的页数
+    public function getMaxPage($total_entry)
+    {
+        $max_page = ceil($total_entry/$this->page_size);
 
         return $max_page;
     }
 
-    //获得当前页面对应的文章列表
-    public function getCpagePost($current_page){
 
-        $page_size = 4;
-        $offset_value = $page_size * ($current_page - 1);
+    //根据current_page计算offset
+    public function get_offset($current_page){
+
+        $offset= $this->page_size * ($current_page - 1);
+
+        return $offset;
+    }
+
+    //获得网站首页的文章分页表
+    public function getIndexPaginate($current_page){
+
+        $offset = $this->get_offset($current_page);
 
         $posts = DB::table('posts')
             ->select('posts.id as post_id','posts.title','posts.content','posts.created_at',
@@ -62,55 +84,67 @@ class Post extends BaseModel
             ->where('status','=','1')
             ->join('users', 'posts.user_id', '=','users.id')
             ->orderBy('posts.created_at','desc')
-            ->offset($offset_value)
-            ->limit($page_size)
+            ->offset($offset)
+            ->limit($this->page_size)
             ->get();
 
         $posts = $posts->toArray();
-
         return $posts;
     }
 
-    //与分页器直接进行交互，返回当前页面的文章列表，默认$current_page=1
-    public function showPagePost($current_page)
-    {
 
-        $posts = $this->getCpagePost($current_page);
-        $max_page = $this->getMaxPage();
+    //获得个人中心的用户文章分页列表
+    public function getUserPaginate($uid,$current_page){
 
-        return [
-            'posts'=>$posts,
-            'max_page'=>$max_page
-        ];
+        $offset = $this->get_offset($current_page);
+
+       $posts = DB::table('posts')->select('*')
+           ->where('user_id','=',$uid)
+           ->orderBy('created_at','desc')
+           ->offset($offset)
+           ->limit($this->page_size)
+           ->get();
+
+        $posts = $posts->toArray();
+        return $posts;
     }
 
 
-    //根据某个参数，查找出参数相关的文章总数和文章页数
-    public  function get_all_posts($param)
-    {
-        $total_entry = $this->getPostCount($param);
 
-        $page_size = 4;
-        $max_page = ceil($total_entry/$page_size);
+    //根据专题id，获取该专题的文章id列表 post_id_list
 
-        return ['total_entry'=>$total_entry, 'max_page'=> $max_page];
+    public function getPidList($topic_id){
 
+        $raw_pid_list= DB::table('post_topics')
+            ->select('post_id')
+            ->where('topic_id','=',$topic_id)
+            ->get();
+
+        $pid_list =  $raw_pid_list->toArray();
+
+        $posts_id_list = [];
+
+        foreach($pid_list as $raw_id){
+            array_push($posts_id_list, $raw_id->post_id);
+        }
+
+        return  $posts_id_list;
     }
 
-    //从专题文章id列表（二级数据库）中，获取当前页应该展示的内容
-    public function getTopicPost($current_page,$post_id_list)
+
+    //从专题文章id列表中，获得专题详情页的文章分页列表
+    public function getTPostPaginate($current_page,$post_id_list)
     {
 
-        $page_size = 4;
-        $offset_value = $page_size * ($current_page - 1);
+        $offset = $this->get_offset($current_page);
 
         $posts = DB::table('posts')
             ->where('status','=','1')
             ->whereIn('id',$post_id_list)
             ->join('users', 'posts.user_id', '=','users.id')
             ->select('posts.*','users.*')
-            ->offset($offset_value)
-            ->limit($page_size)
+            ->offset($offset)
+            ->limit($this->page_size)
             ->get();
 
         $posts = $posts->toArray();
@@ -119,10 +153,8 @@ class Post extends BaseModel
     }
 
 
-
-
-    //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表
-    public function get_myposts($uid,$post_id_list)
+    //获得登录用户的文章里,不在当前主题的post_id_list里的文章id和title
+    public function getMyPosts($uid,$post_id_list)
     {
 
         $myposts = DB::table('posts')->select('id','title')
@@ -132,6 +164,12 @@ class Post extends BaseModel
 
         return $myposts;
     }
+
+
+
+    //文章详情页，根据post_id展示文章信息
+
+
 
 }
 

@@ -17,4 +17,9 @@ class Comment extends Model
 
         return $this->belongsTo('App\User');
     }
+
+    //文章详情页的评论列表
+
+
+    //文章详情页增加平陵
 }

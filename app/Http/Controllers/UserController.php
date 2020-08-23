@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Topic as MTopic;
+use App\Post as MPost;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -15,51 +16,20 @@ class UserController extends Controller
      * @param User $user
      * @return
      */
-    public function profile(User $user)
+    public function profile(Request $request)
     {
 
+        $uid = \Auth::id();
         $model_user = new User();
-        // 当前登录用户的信息
-        $userInfo = $model_user->getInfo($user->id);
+        $userInfo = $model_user->getInfo($uid);
+
+        $current_page = $request->query('page');
+
         //当前用户最新10篇文章
-        $posts = DB::table('posts')
-            ->select('*')
-            ->where('posts.user_id','=',$user->id)
-            ->orderBy('created_at','desc')
-            ->get();
-
-//         当前用户关注用户的列表
-        $stars_list = DB::table('follows')
-            ->select('*')
-            ->where('follower_id','=',$user->id)
-            ->get()->toArray();
-
-        if($stars_list != []){
-            $stars_result_list  = [];
-            foreach($stars_list as $stars){
-                $star_info= $model_user->getInfo($stars->following_id);
-                array_push($stars_result_list, $star_info);
-            }
-        }else{
-            $stars_result_list = 0;
-        }
+        $posts = MPost::Instance()->getUserPaginate($uid,$current_page);
 
 
-        // 当前用户粉丝用户列表
-        $fans_list = DB::table('follows')
-            ->select('*')
-            ->where('following_id','=',$user->id)
-            ->get()->toArray();
 
-          if($fans_list != []){
-              $fans_result_list  = [];
-              foreach($fans_list as $fans){
-                  $fan_info = $model_user->getInfo($fans->follower_id);
-                  array_push($fans_result_list, $fan_info);
-              }
-          }else{
-             $fans_result_list = 0;
-          }
 
 
         $topics = MTopic::Instance()->getSidebar();

@@ -19,11 +19,11 @@ class PostController extends Controller
      {
          $current_page = $request->query("page", 1);
 
-         $result = MPost::Instance()->showPagePost($current_page);
-         $topics = MTopic::Instance()->getSidebar();
+         $posts = MPost::Instance()->getIndexPaginate($current_page);
+         $posts_count = MPost::Instance()->getDBPostCount();
+         $max_page = MPost::Instance()->getMaxPage($posts_count);
 
-        $posts = $result['posts'];
-        $max_page = $result['max_page'];
+         $topics = MTopic::Instance()->getSidebar();
 
         return view('posts/index',[
             'posts' => $posts,
@@ -35,10 +35,11 @@ class PostController extends Controller
      }
 
     //文章详情页,需要展示文章信息/评论总数/评论列表
+
     public function detail(Request $request)
     {
 
-         $post_id = $request->query('post_id');
+        $post_id = $request->query('post_id');
 
         $raw_result = DB::table('posts')->select('*')
             ->where('id','=',$post_id)

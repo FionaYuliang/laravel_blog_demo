@@ -9,7 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class User extends BaseModel
+class User extends Authenticatable
 {
     protected $fillable=['name','email','password'];
 
@@ -88,26 +88,67 @@ class User extends BaseModel
      * @param $uid
      * @return array
      */
-    public function getInfo($uid){
+    public function itemCounters($uid){
+
         $user = DB::table("users")
             ->select('id','name')
             ->where("id","=" ,$uid)
             ->first();
-        $uid = $user->id;
-
-        $username = $user->name;
 
         $fan_count = MFollow::Instance()->getFanNum($uid);
         $star_count = MFollow::Instance()->getStarNum($uid);
-        $post_count = MPost::Instance()->getPostCount($uid);
+        $post_count = MPost::Instance()->getUserPostCount($uid);
 
 
         return [
-            "user_id" => $uid,
-            "username" => $username,
             "fan_count" => $fan_count,
             'star_count' => $star_count,
             'post_count' =>$post_count
         ];
     }
+
+    //获取目标用户--关注人列表
+    public function getStarUser($uid){
+
+        $stars_list = DB::table('follows')
+            ->select('*')
+            ->where('follower_id','=',$uid)
+            ->get()->toArray();
+
+        return $stars_list;
+    }
+
+    //获取目标用户--粉丝列表
+    public function getFansUser($uid){
+
+        $fans_list = DB::table('follows')
+            ->select('*')
+            ->where('following_id','=',$uid)
+            ->get()->toArray();
+
+        return $fans_list;
+    }
+
+    //返回目标用户列表
+    public function getTargetUser($uid)
+    {
+
+        $target_list = $this->getStarUser($uid);
+        $this->getFansUser($uid);
+
+        $model_user = new User();
+
+        if($target_list != []){
+            $targets_result_list  = [];
+            foreach($target_list as $target){
+                $target_info= $model_user->itemCounters($target->following_id);
+                array_push($targets_result_list, $target_info);
+            }
+        }else{
+            $targets_result_list = 0;
+        }
+
+        return $targets_result_list;
+    }
+
 }
