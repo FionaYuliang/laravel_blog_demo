@@ -17,3 +17,4 @@ echo "代码更新完毕"
 echo "安装composer依赖"
 composer install -n
 echo "项目发布完毕"
+
