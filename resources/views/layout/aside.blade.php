@@ -6,7 +6,7 @@
     <h4 class="font-italic">Topics</h4>
     <ol class="list-unstyled mb-0">
         @foreach($topics as $topic)
-            <li><a href="/topics/{{$topic->id}}?topic_id={{$topic->id}}">{{$topic->name}}</a></li>
+            <li><a href="/topics/{{$topic->id}}?topic_id={{$topic->id}}?page=1">{{$topic->name}}</a></li>
         @endforeach
     </ol>
 </div>

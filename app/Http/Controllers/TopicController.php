@@ -29,14 +29,15 @@ class TopicController extends Controller
     public  function TPostPaginte(Request $request){
 
         $topic_id =$request->query('topic_id');
-        $current_page = $request->query('page_num');
+        $current_page = $request->query('page');
+
 
         $topic_name= MTopic::Instance()->get_topic_name($topic_id);
         $post_id_list = MTopic::Instance()->get_pid_list($topic_id);
 
         //tpost 分页展示
-        $result = MPost::Instance()->getTpostNum($post_id_list);
-        $posts = MPost::Instance()->getPagePost($current_page);
+        $result = MPost::Instance()->get_all_posts($post_id_list);
+        $posts = MPost::Instance()->getCpagePost($current_page);
 
         $tposts_count = $result['total_entry'];
         $max_page = $result['max_page'];

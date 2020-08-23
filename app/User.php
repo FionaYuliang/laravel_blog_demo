@@ -1,12 +1,15 @@
 <?php
 
 namespace App;
-use Illuminate\Database\Eloquent\Model;
+use App\BaseModel;
+use App\Follow as MFollow;
+use App\Topic as MTopic;
+use App\Post as MPost;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
-class User extends Authenticatable
+class User extends BaseModel
 {
     protected $fillable=['name','email','password'];
 
@@ -93,12 +96,11 @@ class User extends Authenticatable
         $uid = $user->id;
 
         $username = $user->name;
-        $model_follow = new Follow();
-        $model_post = new Post();
 
-        $fan_count = $model_follow->getFanNum($uid);
-        $star_count = $model_follow->getStarNum($uid);
-        $post_count = $model_post->getPostNum($uid);
+        $fan_count = MFollow::Instance()->getFanNum($uid);
+        $star_count = MFollow::Instance()->getStarNum($uid);
+        $post_count = MPost::Instance()->getPostCount($uid);
+
 
         return [
             "user_id" => $uid,

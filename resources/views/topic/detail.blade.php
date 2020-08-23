@@ -66,25 +66,28 @@
     </div>
 
     <div class="col-md-8 blog-main">
+
+        current_page:{{$current_page}}
+
         <nav aria-label="Page navigation example">
             <ul class="pagination justify-content-center">
                 @if($current_page != 1)
                     <li class="page-item">
-                        <a class="page-link" href="/posts/index?page={{$current_page - 1 }}" aria-label="Previous">
+                        <a class="page-link" href="/topics/{{$topic_id}}?topic_id={{$topic_id}}?page={{$current_page-1}}" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
                 @endif
-                @for($page_num=1;$page_num < $max_page;$page_num++)
+                @for($page_num=1;$page_num <= $max_page;$page_num++)
                     @if($page_num === $current_page)
-                        <li class="page-item disabled" aria-disabled="true"><a class="page-link" href="/posts/index?page={{$page_num}}">{{$page_num}}</a></li>
+                        <li class="page-item disabled" aria-disabled="true"><a class="page-link" href="/topics/{{$topic->id}}?topic_id={{$topic->id}}?page={{$page_num}}">{{$page_num}}</a></li>
                     @else
-                        <li class="page-item"><a class="page-link" href="/posts/index?page={{$page_num}}">{{$page_num}}</a></li>
+                        <li class="page-item"><a class="page-link" href="/topics/{{$topic_id}}?topic_id={{$topic_id}}?page={{$page_num}}">{{$page_num}}</a></li>
                     @endif
                 @endfor
                 @if($current_page != $max_page)
                     <li class="page-item">
-                        <a class="page-link" href="/posts/index?page={{$current_page + 1}}" aria-label="Next">
+                        <a class="page-link" href="/topics/{{$topic_id}}?topic_id={{$topic_id}}?page={{$current_page+1}}" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

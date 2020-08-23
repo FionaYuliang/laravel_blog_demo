@@ -24,20 +24,24 @@ class Post extends BaseModel
         return $this->hasMany('App\Comment');
     }
 
-    /**
-     * @param $uid
-     * @return int
-     */
-    public function  getPostNum($uid)
+
+
+    //获得当前用户的文章数量
+    public function  getPostCount($param)
     {
-        $post_count = DB::table('posts')->select('*')
-            ->where('user_id','=',$uid)->count();
+        $post_count = DB::table('posts')
+            ->where('user_id','=',$param)->count();
 
         return $post_count;
     }
 
-//以下是文章分页逻辑
-    public function getPageSum()
+    //获得当前用户的文章分页
+
+
+
+
+    //获得数据库所有的文章数量，并计算出页数
+    public function getMaxPage()
     {
         $total_entry = DB::table('posts')->count();
         $page_size = 4;
@@ -46,7 +50,8 @@ class Post extends BaseModel
         return $max_page;
     }
 
-    public function getPagePost($current_page){
+    //获得当前页面对应的文章列表
+    public function getCpagePost($current_page){
 
         $page_size = 4;
         $offset_value = $page_size * ($current_page - 1);
@@ -66,13 +71,12 @@ class Post extends BaseModel
         return $posts;
     }
 
-    //使用分页器展示文章列表页，默认$page_num=1
-    //用到文章列表页的地方有：网站首页、专题详情页、个人中心文章列表页
+    //与分页器直接进行交互，返回当前页面的文章列表，默认$current_page=1
     public function showPagePost($current_page)
     {
 
-        $posts = $this->getPagePost($current_page);
-        $max_page = $this->getPageSum();
+        $posts = $this->getCpagePost($current_page);
+        $max_page = $this->getMaxPage();
 
         return [
             'posts'=>$posts,
@@ -80,13 +84,11 @@ class Post extends BaseModel
         ];
     }
 
-//根据某个主题的全部文章id列表,查找出所有的文章信息，用于专题详情页文章列表的分页展示
 
-    public  function getTpostNum($post_id_list)
+    //根据某个参数，查找出参数相关的文章总数和文章页数
+    public  function get_all_posts($param)
     {
-        $total_entry = DB::table('posts')
-            ->whereIn('id',$post_id_list)
-            ->count();
+        $total_entry = $this->getPostCount($param);
 
         $page_size = 4;
         $max_page = ceil($total_entry/$page_size);
@@ -95,6 +97,7 @@ class Post extends BaseModel
 
     }
 
+    //从专题文章id列表（二级数据库）中，获取当前页应该展示的内容
     public function getTopicPost($current_page,$post_id_list)
     {
 
@@ -114,6 +117,8 @@ class Post extends BaseModel
 
         return  $posts;
     }
+
+
 
 
     //查找登录用户的文章里,不在当前主题的post_id_list里的文章列表
