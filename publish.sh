@@ -1,5 +1,5 @@
 #   su wordpress
-#   bash ~/publish.sh
+#   bash ~/publish_laravel_blog_demo.sh
 
 cd /home/wordpress/www/laravel_blog_demo
 #  直接拉取远程代码
