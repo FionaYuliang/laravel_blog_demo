@@ -1,3 +1,5 @@
+su wordpress
+cd /home/wordpress/www/laravel_blog_demo
 #  直接拉取远程代码
 git fetch --all
 git reset --hard origin/master
