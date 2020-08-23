@@ -25,12 +25,10 @@ class UserController extends Controller
 
         $current_page = $request->query('page');
 
-        //当前用户最新10篇文章
+        //当前用户所有文章
         $posts = MPost::Instance()->getUserPaginate($uid,$current_page);
 
-
-
-
+       $model_user->getFansUser($uid);
 
         $topics = MTopic::Instance()->getSidebar();
 
