@@ -130,55 +130,33 @@ class User extends Authenticatable
     }
 
 
-    //返回目标用户列表
-    public function getTargetUser($uid)
-    {
 
-        $target_list = $this->getStarUser($uid);
-        $this->getFansUser($uid);
 
-        $model_user = new User();
-
-        if($target_list != []){
-            $targets_result_list  = [];
-            foreach($target_list as $target){
-                if(???  ){
-                    $element = $target->following_id;
-                }else{
-                    $element = $target->follower_id;
-                }
-                $target_info= $model_user->itemCounters($element);
-                array_push($targets_result_list, $target_info);
-            }
-        }else{
-            $targets_result_list = 0;
-        }
-
-        return $targets_result_list;
-    }public function getTargetUser($uid)
-    {
-
-        $target_list = $this->getStarUser($uid);
-        $this->getFansUser($uid);
-
-        $model_user = new User();
-
-        if($target_list != []){
-            $targets_result_list  = [];
-            foreach($target_list as $target){
-                if(???  ){
-                    $element = $target->following_id;
-                }else{
-                    $element = $target->follower_id;
-                }
-                $target_info= $model_user->itemCounters($element);
-                array_push($targets_result_list, $target_info);
-            }
-        }else{
-            $targets_result_list = 0;
-        }
-
-        return $targets_result_list;
-    }
+        //返回目标用户列表
+//    public function getTargetUser($uid)
+//    {
+//
+//        $target_list = $this->getStarUser($uid);
+//        $this->getFansUser($uid);
+//
+//        $model_user = new User();
+//
+//        if($target_list != []){
+//            $targets_result_list  = [];
+//            foreach($target_list as $target){
+//                if(???  ){
+//                    $element = $target->following_id;
+//                }else{
+//                    $element = $target->follower_id;
+//                }
+//                $target_info= $model_user->itemCounters($element);
+//                array_push($targets_result_list, $target_info);
+//            }
+//        }else{
+//            $targets_result_list = 0;
+//        }
+//
+//        return $targets_result_list;
+//    }
 
 }
