@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//网站首页
+Route::get('/',function (){
+   return 'hello world';
+});
 //用户注册页面
 Route::get('register', 'RegisterController@index');
 //用户注册行为
