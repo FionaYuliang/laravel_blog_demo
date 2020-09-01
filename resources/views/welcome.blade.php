@@ -77,8 +77,8 @@
         </div>
 
         <div class="links">
-            <a href="http://www.bookflaneur.cn/posts/index">博客首页</a>
-            <a href="https://github.com/FionaYuliang/laravel_blog_demo">我的 GitHub</a>
+            <a href="/posts/index" target="_blank">博客首页</a>
+            <a href="https://github.com/FionaYuliang/laravel_blog_demo" target="_blank">我的 GitHub</a>
         </div>
     </div>
 </div>
