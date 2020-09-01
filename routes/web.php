@@ -13,11 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//网站首页
+//网站欢迎页
 Route::get('/',function (){
    return   view('welcome');
 });
 
+//网站首页
+Route::get('posts/index', 'PostController@index');
 
 //用户注册页面
 Route::get('register', 'RegisterController@index');
@@ -48,8 +50,7 @@ Route::group(['middleware'=>'auth'],function() {
 
 
     // Post Model
-    //文章列表页
-    Route::get('posts/index', 'PostController@index');
+
     // 文章详情页
     Route::get('posts/{post}', 'PostController@detail');
     //文章评论行为
