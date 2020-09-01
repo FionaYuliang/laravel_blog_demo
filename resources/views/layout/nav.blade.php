@@ -26,7 +26,7 @@
                     @else
                        <a class="nav-link" href="/login">登录</a>
                     @endif
-                </ul>s
+                </ul>
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">
