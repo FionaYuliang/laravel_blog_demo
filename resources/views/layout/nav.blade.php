@@ -15,7 +15,7 @@
                 <a class="nav-link" href="/notices">通知</a>
             </li>
             <li class="nav-item dropdown">
-                @if(\Auth::user()->id)
+                @if(\Auth::user())
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    {{\Auth::user()->name}}</a>
