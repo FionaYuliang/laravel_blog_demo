@@ -15,11 +15,11 @@
                 <a class="nav-link" href="/notices">通知</a>
             </li>
             <li class="nav-item dropdown">
+                @if(\Auth::user())
                 <a class="nav-link dropdown-toggle" href="#" id="dropdown01"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    {{\Auth::user()->name}}</a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                    @if(\Auth::user()->id)
                     <a class="dropdown-item" href="/user/{{\Auth::user()->id}}">我的首页</a>
                         <a class="dropdown-item" href="/user/me/setting">个人设置</a>
                         <a class="dropdown-item" href="/logout">登出</a>
