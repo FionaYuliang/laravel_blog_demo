@@ -66,7 +66,7 @@
         @else
         @foreach($fans_result_list as $fan)
         <div class="blog-post" style="margin-top: 30px">
-            <p class=""><a href="{{$fan['user_id']}}">{{$fan['username']}}</a></p>
+            <p class=""><a href="{{$fan['user_id']}}?user_id={{$fan['user_id']}}">{{$fan['username']}}</a></p>
             <p class="">关注：{{$fan['star_count']}} | 粉丝：{{$fan['fan_count']}}
                 ｜文章：{{$fan['post_count']}}</p>
         </div>
