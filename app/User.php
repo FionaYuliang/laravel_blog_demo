@@ -22,6 +22,20 @@ class User extends Authenticatable
         return $this->hasMany(\App\Post::class,'user_id','id');
 
     }
+
+    /**
+     * 根据uid获取用户信息
+     * @param $uid
+     * @return \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Query\Builder|object|null
+     */
+    public function getUserInfo($uid){
+        $user = DB::table('users')->select('*')
+            ->where('id', $uid)
+            ->first();
+        return $user;
+    }
+
+
     /**
      * 用户被多少人关注了
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

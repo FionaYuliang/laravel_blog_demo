@@ -73,9 +73,31 @@ class UserController extends Controller
 
         $avatar_url = $request->post('avatar_url');
         $user_id = \Auth::id();
+        $m_user = new User();
+        $user_info = $m_user->getUserInfo($user_id);
 
-        DB::table('user_infos')->where('id','=',$user_id)
-            ->update(['avatar_url'=>$avatar_url]);
+        // 先检查用户记录是否存在
+        $info_list = DB::table('user_infos')->where('user_id','=',$user_id)
+            ->get()->toArray();
+
+        if(count($info_list) > 0){
+            // 有记录, 直接更新
+            DB::table('user_infos')->where('user_id','=',$user_id)
+                ->update(['avatar_url'=>$avatar_url]);
+        }else{
+            // 没有记录, 创建新记录
+            DB::table('user_infos')
+                ->insert([
+                    'avatar_url'=>$avatar_url,
+                    'motto'=>"",
+                    "username"=> $user_info->name,
+                    'user_id' => $user_id
+                ]);
+        }
+
+        //
+
+
 
         return [
             'error'=>0,
