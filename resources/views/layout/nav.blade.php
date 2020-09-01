@@ -20,13 +20,13 @@
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                    {{\Auth::user()->name}}</a>
                 <ul class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="/user/{{\Auth::user()->id}}">我的首页</a>
+                    <a class="dropdown-item" href="/user/{{\Auth::user()->id}}?user_id={{\Auth::user()->id}}">我的首页</a>
                         <a class="dropdown-item" href="/user/me/setting">个人设置</a>
                         <a class="dropdown-item" href="/logout">登出</a>
                     @else
                        <a class="nav-link" href="/login">登录</a>
                     @endif
-                </ul>
+                </ul>s
             </li>
         </ul>
         <form class="form-inline my-2 my-lg-0">

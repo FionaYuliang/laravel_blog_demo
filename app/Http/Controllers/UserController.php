@@ -12,23 +12,24 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * User Model里getInfo函数的返回值传递给控制层
+     *  个人中心页面
      * @param User $user
      * @return
      */
     public function profile(Request $request)
     {
 
-        $uid = \Auth::id();
+        $uid = $request->get('user_id');
         $model_user = new User();
-        $userInfo = $model_user->getInfo($uid);
+        $userInfo = $model_user->itemCounters($uid);
 
         $current_page = $request->query('page');
 
         //当前用户所有文章
         $posts = MPost::Instance()->getUserPaginate($uid,$current_page);
 
-       $model_user->getFansUser($uid);
+        $stars_result_list = $model_user->getStarUser($uid);
+        $fans_result_list = $model_user->getFansUser($uid);
 
         $topics = MTopic::Instance()->getSidebar();
 
@@ -90,16 +91,16 @@ class UserController extends Controller
     {
 
         $following_id = $request->post('following_id');
-        $follwer_id = \Auth::id();
+        $follower_id = \Auth::id();
 
        $is_exist =  DB::table('follows')->select('*')
             ->where('following_id','=',$following_id)
-            ->where('follower_id','=',$follwer_id)
+            ->where('follower_id','=',$follower_id)
             ->exists();
 
        if($is_exist == 0){
            DB::table('follows')->insertGetId(
-               ['following_id'=>$following_id,'follower_id'=>$follwer_id]);
+               ['following_id'=>$following_id,'follower_id'=>$follower_id]);
            return [
                'error' => 0,
                'msg' => '关注成功',

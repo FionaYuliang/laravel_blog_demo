@@ -2,14 +2,14 @@
     <h4 class="font-italic">About</h4>
     <p class="mb-0">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
 </div>
-<div class="p-4">
-    <h4 class="font-italic">Topics</h4>
-    <ol class="list-unstyled mb-0">
-        @foreach($topics as $topic)
-            <li><a href="/topics/{{$topic->id}}?topic_id={{$topic->id}}?page=1">{{$topic->name}}</a></li>
-        @endforeach
-    </ol>
-</div>
+{{--<div class="p-4">--}}
+{{--    <h4 class="font-italic">Topics</h4>--}}
+{{--    <ol class="list-unstyled mb-0">--}}
+{{--        @foreach($topics as $topic)--}}
+{{--            <li><a href="/topics/{{$topic->id}}?topic_id={{$topic->id}}?page=1">{{$topic->name}}</a></li>--}}
+{{--        @endforeach--}}
+{{--    </ol>--}}
+{{--</div>--}}
 <div class="p-4">
     <h4 class="font-italic">Elsewhere</h4>
     <ol class="list-unstyled">

@@ -95,12 +95,17 @@ class User extends Authenticatable
             ->where("id","=" ,$uid)
             ->first();
 
+        $username = $user->name;
+        $user_id = $user->id;
+
         $fan_count = MFollow::Instance()->getFanNum($uid);
         $star_count = MFollow::Instance()->getStarNum($uid);
         $post_count = MPost::Instance()->getUserPostCount($uid);
 
 
         return [
+            'username'=>$username,
+            'user_id' => $user_id,
             "fan_count" => $fan_count,
             'star_count' => $star_count,
             'post_count' =>$post_count
@@ -115,7 +120,19 @@ class User extends Authenticatable
             ->where('follower_id','=',$uid)
             ->get()->toArray();
 
-        return $stars_list;
+        $lens = count($stars_list);
+        if($lens != 0){
+            $stars_result_list  = [];
+            $model_user = new User();
+            foreach($stars_list as $star){
+                $star_info= $model_user->itemCounters($star->following_id);
+                array_push($stars_result_list, $star_info);
+            }
+        }else{
+            $stars_result_list = 0;
+        }
+
+        return $stars_result_list;
     }
 
     //获取目标用户--粉丝列表
@@ -126,37 +143,19 @@ class User extends Authenticatable
             ->where('following_id','=',$uid)
             ->get()->toArray();
 
-        return $fans_list;
+        $lens = count($fans_list);
+        if($lens != 0){
+            $fans_result_list  = [];
+            $model_user = new User();
+            foreach($fans_list as $fan){
+                $fan_info= $model_user->itemCounters($fan->follower_id);
+                array_push($fans_result_list, $fan_info);
+            }
+        }else{
+            $fans_result_list = 0;
+        }
+
+        return $fans_result_list;
     }
-
-
-
-
-        //返回目标用户列表
-//    public function getTargetUser($uid)
-//    {
-//
-//        $target_list = $this->getStarUser($uid);
-//        $this->getFansUser($uid);
-//
-//        $model_user = new User();
-//
-//        if($target_list != []){
-//            $targets_result_list  = [];
-//            foreach($target_list as $target){
-//                if(???  ){
-//                    $element = $target->following_id;
-//                }else{
-//                    $element = $target->follower_id;
-//                }
-//                $target_info= $model_user->itemCounters($element);
-//                array_push($targets_result_list, $target_info);
-//            }
-//        }else{
-//            $targets_result_list = 0;
-//        }
-//
-//        return $targets_result_list;
-//    }
 
 }
